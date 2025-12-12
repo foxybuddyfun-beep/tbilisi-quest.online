@@ -1,257 +1,47 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tbilisi Quest — Tasks</title>
+  <title>Tbilisi Quest — Choose Team</title>
   <style>
-    body { font-family: system-ui, Arial; margin: 0; background:#f6f7fb; color:#111827; }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 20px; }
-    .card { background:#fff; border-radius: 16px; padding: 16px; box-shadow: 0 6px 24px rgba(0,0,0,.06); margin-bottom: 14px; }
-    .muted { color:#667085; font-size: 14px; }
-    .route { display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; }
-    .chip { background:#eef2ff; padding: 8px 10px; border-radius: 999px; font-size: 14px; }
-    .task { border:1px solid #eef0f6; border-radius: 14px; padding: 14px; margin-top: 12px; }
-    .task h3 { margin:0; font-size: 16px; }
-    .task-head { display:flex; align-items:center; justify-content:space-between; gap: 10px; margin-bottom: 10px; }
-    .status { font-size: 12px; padding: 4px 10px; border-radius: 999px; display:inline-block; white-space:nowrap; }
-    .open { background:#ecfdf3; color:#027a48; }
-    .closed { background:#fef3f2; color:#b42318; }
-    .locked { filter: blur(7px); user-select:none; pointer-events:none; opacity:.55; }
-    .text { white-space: pre-wrap; line-height: 1.4; }
-    .err { color:#b42318; }
-    .small { font-size: 12px; }
+    body{font-family:system-ui,Arial;margin:0;background:#f6f7fb;color:#111827}
+    .wrap{max-width:860px;margin:0 auto;padding:20px}
+    .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
+    a.btn{display:block;text-decoration:none;background:#2563eb;color:#fff;padding:14px 16px;border-radius:14px;margin-top:10px}
+    .muted{color:#667085;font-size:14px}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
       <h1 style="margin:0 0 6px;">Tbilisi Quest</h1>
-      <div class="muted">
-        The route is visible. Tasks unlock as the host opens them.
-      </div>
-      <div class="muted small" id="syncLine" style="margin-top:8px;"></div>
-
-      <h2 style="margin:14px 0 8px; font-size:16px;">Route</h2>
-      <div class="route">
-        <!-- Edit these chips to match your real route -->
-        <div class="chip">1) Philosopher</div>
-        <div class="chip">2) Zurab</div>
-        <div class="chip">3) Artist</div>
-        <div class="chip">4) Friend</div>
-        <div class="chip">5) Team</div>
-        <div class="chip">6) Read</div>
-        <div class="chip">7) Sweeper</div>
-        <div class="chip">8) Arch</div>
-        <div class="chip">9) DNA</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 style="margin:0 0 8px; font-size:18px;">Tasks</h2>
-      <div id="errorBox" class="muted small"></div>
-      <div id="tasks"></div>
+      <div class="muted">Choose your team:</div>
+      <div id="links"></div>
+      <div class="muted" id="err" style="margin-top:10px;"></div>
     </div>
   </div>
 
-  <script>
-    /**
-     * Google Apps Script Web App URL (you will paste it)
-     * It must return JSON array of 9 rows:
-     * row1 -> task1 status, row2 -> task2 status ... row9 -> task9 status
-     * Each row should contain: "open" or "close" (case-insensitive).
-     */
-    const API_URL = "https://script.google.com/macros/s/AKfycbydEfcehBVvHQyG5s9vYvk2Cf8Ic26kWx-kP2XsRPNGFMGKgS7ecGW1ypHPdfeh5RxK/exec";
+  <script type="module">
+    const API_URL = "PASTE_YOUR_EXEC_URL_HERE"; // <-- вставь свой /exec
 
-
-
-    const TASKS = [
-      {
-        id: 1,
-        title: "Location — Philosopher",
-        text:
-`He is a philosopher, and his instrument is consciousness.
-With it, he tightly grasps ideas and explores the blows of existence.
-Yet many visitors who stand before this monument believe that he faces these “blows” with something entirely different.
-Name the item they mistakenly assume is part of his working attire — the tool they imagine helps him do his job.`
-      },
-      {
-        id: 2,
-        title: "Location — Zurab",
-        text:
-`You may have never stepped inside the Zurab Tsereteli Museum on Rustaveli Avenue,
-yet you have almost certainly seen his works — they appear all over the world.
-And one of his most provocative sculptures, based on a famous myth, is something many people carry with them every day without even noticing.
-Try to guess what it is without entering the museum.`
-      },
-      {
-        id: 3,
-        title: "Location — Artist",
-        text:
-`Find the monument to David Kakabadze near the National Gallery of Georgia.
-Three clues hidden on the monument will help you:
-— A written inscription revealing his profession
-— A paintbrush — the artist’s tool
-…and one more element you must discover on your own.
-
-Which third object hints that this monument is dedicated to an artist?`
-      },
-      {
-        id: 4,
-        title: "Location — Friend",
-        text:
-`In the two parks beside each other — including the one you are standing in now — you will find many monuments.
-Some of them depict artists whose profession is not immediately clear.
-But one artist immortalized here can be identified with the help of his friend.
-
-Find the monument and name his friend.`
-      },
-      {
-        id: 5,
-        title: "Location — Team",
-        text:
-`Here you see a fountain with six musician figures.
-Imagine they decided to form a team to play “What? Where? When?”.
-But only one of them was allowed to join.
-
-Once you understand why he was chosen — name the insect associated with that reason.`
-      },
-      {
-        id: 6,
-        title: "Location — Read",
-        text:
-`When colleagues of this person read his surname on this monument,
-they often read it incorrectly.
-
-Question 1:
-What is this person’s profession?
-
-Question 2:
-How do his colleagues misread his surname?
-
-Note: this is a humorous fantasy of the author, not a historical fact.`
-      },
-      {
-        id: 7,
-        title: "Location — Sweeper",
-        text:
-`Although this man’s profession is primitive, and it is literally “written on his forehead,”
-he became well-known thanks to the paintings of a famous Georgian artist.
-
-Question 1:
-Name the artist.
-
-Question 2:
-In which style did he paint?
-
-Hint: This is a quiz, not an art history exam — the answers are hidden in the wording of the question itself.`
-      },
-      {
-        id: 8,
-        title: "Location — Arch",
-        text:
-`When people learn this person’s profession,
-they often mistakenly name the wrong bird sitting on the arch.
-In reality, the bird is just a pigeon.
-
-Question 1:
-What is his profession?
-
-Question 2:
-Which bird do people think they see on the arch — the one they confuse it with?`
-      },
-      {
-        id: 9,
-        title: "Location — DNA",
-        text:
-`Here, between the sulfur baths and the waterfall — the very place where the story of Tbilisi begins —
-there is no monument called “The DNA of Love.”
-But if you truly want to, you can find it.
-
-Try to decode the formula of the “DNA of Love”
-and name its three components.`
-      }
-    ];
-
-    // --- UI rendering ---
-    function render(statusMap) {
-      const container = document.getElementById("tasks");
-      container.innerHTML = "";
-
-      TASKS.forEach(t => {
-        const st = (statusMap[t.id] || "close").toLowerCase();
-        const unlocked = st === "open";
-
-        const card = document.createElement("div");
-        card.className = "task";
-
-        card.innerHTML = `
-          <div class="task-head">
-            <h3>${t.id}. ${t.title}</h3>
-            <span class="status ${unlocked ? "open" : "closed"}">${unlocked ? "OPEN" : "CLOSED"}</span>
-          </div>
-          <div class="${unlocked ? "" : "locked"}">
-            <div class="text">${escapeHtml(t.text)}</div>
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
+    async function loadTeamNames() {
+      const res = await fetch(API_URL, { cache:"no-store" });
+      const data = await res.json();
+      return data.teamNames || ["Team 1","Team 2","Team 3"];
     }
 
-    function escapeHtml(str) {
-      return str
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;");
+    try {
+      const names = await loadTeamNames();
+      const links = document.getElementById("links");
+      links.innerHTML = `
+        <a class="btn" href="team-1.html">Team 1 — ${names[0] || "—"}</a>
+        <a class="btn" href="team-2.html">Team 2 — ${names[1] || "—"}</a>
+        <a class="btn" href="team-3.html">Team 3 — ${names[2] || "—"}</a>
+      `;
+    } catch (e) {
+      document.getElementById("err").textContent = "Cannot load team names: " + e.message;
     }
-
-    // --- Data loading ---
-    async function loadStatuses() {
-      if (!API_URL || API_URL.includes("PASTE_YOUR_WEB_APP_URL_HERE")) {
-        showError("Paste your Google Apps Script Web App URL into API_URL.");
-        return;
-      }
-
-      try {
-        const res = await fetch(API_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-        const data = await res.json();
-
-        // We expect: array of 9 strings OR array of arrays/objects containing status.
-        // Your sheet: one column with values open/close.
-        const statusMap = {};
-        for (let i = 0; i < 9; i++) {
-          const row = data[i];
-
-          let value = "";
-          if (typeof row === "string") value = row;
-          else if (Array.isArray(row)) value = row[0] ?? "";
-          else if (row && typeof row === "object") value = row.status ?? row.open ?? row.value ?? "";
-          else value = "";
-
-          statusMap[i + 1] = String(value || "close").trim().toLowerCase();
-        }
-
-        render(statusMap);
-        showError(""); // clear
-        document.getElementById("syncLine").textContent =
-          `Last sync: ${new Date().toLocaleTimeString()}`;
-      } catch (e) {
-        showError(`Cannot load statuses. Check your Web App URL and CORS. Details: ${e.message}`);
-      }
-    }
-
-    function showError(msg) {
-      const box = document.getElementById("errorBox");
-      box.innerHTML = msg ? `<span class="err">${escapeHtml(msg)}</span>` : "";
-    }
-
-    // Initial render (all closed)
-    render({});
-    loadStatuses();
-    setInterval(loadStatuses, 2000);
   </script>
 </body>
 </html>
