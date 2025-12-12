@@ -6,26 +6,39 @@
   <title>Host — Team 2</title>
   <style>
     body{font-family:system-ui,Arial;margin:0;background:#0b1220;color:#fff}
-    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    .wrap{max-width:1100px;margin:0 auto;padding:20px}
     .card{background:#111a2e;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:14px}
-    .muted{color:rgba(255,255,255,.7);font-size:13px}
-    .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 10px;border-radius:12px;background:rgba(255,255,255,.04);margin-top:10px}
-    .left{min-width:0}
-    .title{font-weight:650}
-    .sub{color:rgba(255,255,255,.7);font-size:12px;margin-top:3px}
-    .btn{background:#2563eb;color:#fff;border:none;padding:10px 12px;border-radius:12px;cursor:pointer}
-    .danger{background:#ef4444}
+    .muted{color:rgba(255,255,255,.7);font-size:13px;line-height:1.5}
     .ok{color:#22c55e}
     .err{color:#ef4444}
+    .btn{background:#2563eb;color:#fff;border:none;padding:10px 12px;border-radius:12px;cursor:pointer}
+    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
+
+    .step{border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);padding:14px;margin-top:14px}
+    .stepHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .stepTitle{font-weight:750;font-size:16px}
+    .stepSubtitle{margin-top:4px;color:rgba(255,255,255,.7);font-size:12px}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+
+    .panel{border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:12px}
+    .panelHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    .panelTitle{font-weight:700}
+    .panelMeta{color:rgba(255,255,255,.65);font-size:12px;margin-top:2px}
+    .text{white-space:pre-wrap;line-height:1.45;color:rgba(255,255,255,.9)}
+    a{color:#93c5fd}
+
+    /* Switch */
     .switch{position:relative;display:inline-block;width:52px;height:28px;flex:0 0 auto}
     .switch input{opacity:0;width:0;height:0}
     .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.18);transition:.2s;border-radius:999px}
     .slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;transition:.2s;border-radius:999px}
     input:checked + .slider{background:#22c55e}
     input:checked + .slider:before{transform:translateX(24px)}
-    .answers a{color:#93c5fd;text-decoration:underline;cursor:pointer;margin-left:10px;white-space:nowrap}
+
+    .answers a{color:#93c5fd;text-decoration:underline;cursor:pointer;margin-left:10px;white-space:nowrap;font-size:12px}
     .answerBox{color:#fff;margin-left:10px;font-size:12px}
-    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
   </style>
 </head>
 <body>
@@ -34,18 +47,18 @@
       <h1 style="margin:0 0 6px;" id="hTitle">Host</h1>
       <div class="muted" id="pinLine"></div>
       <div class="muted" id="syncLine"></div>
-
       <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
         <button class="btn" id="refresh">Refresh</button>
-        <button class="btn" id="openAll">Open all</button>
-        <button class="btn danger" id="closeAll">Close all</button>
       </div>
-
       <div id="msg" class="muted" style="margin-top:10px;"></div>
     </div>
 
     <div class="card">
       <h2 style="margin:0 0 8px;font-size:18px;">Controls</h2>
+      <div class="muted">
+        You can open/close each location and task separately.<br>
+        Answers are visible only to the host for 3 seconds.
+      </div>
       <div id="list"></div>
     </div>
   </div>
@@ -54,7 +67,7 @@
     import { API_URL } from "./config.js";
     import { LOCATIONS, TASKS, TEAM_ORDERS } from "./data.js";
 
-    const TEAM_ID = 2;
+    const TEAM_ID = 1;
 
     const params = new URLSearchParams(location.search);
     const pin = (params.get("pin") || "").trim();
@@ -69,6 +82,7 @@
     }
 
     // stepIdx 0..8 -> item 1..18
+    // 1=Loc1,2=Task1,3=Loc2,4=Task2...
     function itemIndex(stepIdx, type){
       return type === "location" ? (2 * stepIdx + 1) : (2 * stepIdx + 2);
     }
@@ -113,46 +127,70 @@
         const locOpen = (statuses[locItem-1] || "close") === "open";
         const taskOpen = (statuses[taskItem-1] || "close") === "open";
 
-        // Location row
-        const locRow = document.createElement("div");
-        locRow.className = "row";
-        locRow.innerHTML = `
-          <div class="left">
-            <div class="title">${i+1}. ${LOCATIONS[key].title}</div>
-            <div class="sub">Location visibility</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" ${locOpen ? "checked":""} data-item="${locItem}">
-            <span class="slider"></span>
-          </label>
-        `;
-        list.appendChild(locRow);
+        const loc = LOCATIONS[key];
+        const task = TASKS[key];
 
-        // Task row (+ answer reveal)
+        const step = document.createElement("div");
+        step.className = "step";
+
+        const mapsLinks = (loc.links || []).map(u =>
+          `<div><a href="${u}" target="_blank" rel="noopener">Open in Maps</a></div>`
+        ).join("");
+
         const answersHtml =
-          TASKS[key].answers.length === 1
+          (task.answers?.length || 0) <= 1
             ? `<a data-a="0">Answer</a>`
-            : TASKS[key].answers.map((_,idx)=>`<a data-a="${idx}">Answer ${idx+1}</a>`).join("");
+            : task.answers.map((_,idx)=>`<a data-a="${idx}">Answer ${idx+1}</a>`).join("");
 
-        const taskRow = document.createElement("div");
-        taskRow.className = "row";
-        taskRow.innerHTML = `
-          <div class="left">
-            <div class="title">${TASKS[key].title}</div>
-            <div class="sub">
-              Task visibility
-              <span class="answers" data-key="${key}">
-                ${answersHtml}
-                <span class="answerBox"></span>
-              </span>
+        step.innerHTML = `
+          <div class="stepHeader">
+            <div>
+              <div class="stepTitle">Step ${i+1} — ${key}</div>
+              <div class="stepSubtitle">Controls and text for this location & task</div>
             </div>
           </div>
-          <label class="switch">
-            <input type="checkbox" ${taskOpen ? "checked":""} data-item="${taskItem}">
-            <span class="slider"></span>
-          </label>
+
+          <div class="grid">
+            <!-- Location panel -->
+            <div class="panel">
+              <div class="panelHead">
+                <div>
+                  <div class="panelTitle">${loc.title}</div>
+                  <div class="panelMeta">Sheet item: ${locItem} (Location)</div>
+                </div>
+                <label class="switch" title="Toggle location visibility">
+                  <input type="checkbox" ${locOpen ? "checked":""} data-item="${locItem}">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="text">${escapeHtml(loc.howTo || "")}</div>
+              ${mapsLinks ? `<div style="margin-top:10px">${mapsLinks}</div>` : ""}
+            </div>
+
+            <!-- Task panel -->
+            <div class="panel">
+              <div class="panelHead">
+                <div>
+                  <div class="panelTitle">${task.title}</div>
+                  <div class="panelMeta">
+                    Sheet item: ${taskItem} (Task)
+                    <span class="answers" data-key="${key}">
+                      ${answersHtml}
+                      <span class="answerBox"></span>
+                    </span>
+                  </div>
+                </div>
+                <label class="switch" title="Toggle task visibility">
+                  <input type="checkbox" ${taskOpen ? "checked":""} data-item="${taskItem}">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="text">${escapeHtml(task.text || "")}</div>
+            </div>
+          </div>
         `;
-        list.appendChild(taskRow);
+
+        list.appendChild(step);
       });
 
       // Toggle handlers
@@ -178,7 +216,7 @@
         box.querySelectorAll("a[data-a]").forEach(a => {
           a.addEventListener("click", () => {
             const idx = Number(a.dataset.a);
-            const answer = TASKS[key].answers[idx] || "";
+            const answer = (TASKS[key].answers && TASKS[key].answers[idx]) ? TASKS[key].answers[idx] : "";
             out.textContent = answer;
             setTimeout(() => { out.textContent = ""; }, 3000);
           });
@@ -186,22 +224,21 @@
       });
     }
 
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
     async function load(){
       const data = await getTeam();
       render(data.teamName, data.statuses || []);
     }
 
-    async function setAll(status){
-      for (let item = 1; item <= 18; item++){
-        await setStatus(item, status);
-        await new Promise(r => setTimeout(r, 120));
-      }
-      setTimeout(load, 900);
-    }
-
-    document.getElementById("refresh").addEventListener("click", load);
-    document.getElementById("openAll").addEventListener("click", ()=>setAll("open"));
-    document.getElementById("closeAll").addEventListener("click", ()=>setAll("close"));
+    document.getElementById("refresh").addEventListener("click", () => load().catch(e => {
+      setMsg("Cannot load: " + e.message, false);
+    }));
 
     try {
       await load();
