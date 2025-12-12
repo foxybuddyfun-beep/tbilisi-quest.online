@@ -20,6 +20,7 @@
     .slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;transition:.2s;border-radius:999px}
     input:checked + .slider{background:#22c55e}
     input:checked + .slider:before{transform:translateX(24px)}
+    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
   </style>
 </head>
 <body>
@@ -45,7 +46,7 @@
   </div>
 
   <script>
-    // === PUT YOUR WEB APP URL HERE ===
+    // === YOUR GOOGLE APPS SCRIPT WEB APP URL (/exec) ===
     const API_URL = "https://script.google.com/macros/s/AKfycbzUmn2dx6MSvDYPYknDkDZthf4ZXgCHNHJZm1r1fREuQgjLBODFqli_VOCLVhN0GGze/exec";
 
     const TOTAL = 9;
@@ -54,7 +55,9 @@
     const pin = (params.get("pin") || "").trim();
 
     document.getElementById("pinLine").innerHTML =
-      pin ? `PIN: <b>provided</b>` : `<span class="err">No PIN. Open this page like: host.html?pin=7777</span>`;
+      pin
+        ? `PIN: <b>provided</b> (<code>?pin=****</code>)`
+        : `<span class="err">No PIN. Open like: <code>host.html?pin=7777</code></span>`;
 
     function setMsg(text, ok=true) {
       const el = document.getElementById("msg");
@@ -102,7 +105,6 @@
           const id = Number(e.target.dataset.id);
           const status = e.target.checked ? "open" : "close";
           await setStatus(id, status);
-          await loadStatuses();
         });
       });
     }
@@ -114,20 +116,27 @@
       }
 
       try {
-        const body = new URLSearchParams({ taskId: String(taskId), status, pin });
-
-        const res = await fetch(API_URL, {
-          method: "POST",
-          body
+        const body = new URLSearchParams({
+          taskId: String(taskId),
+          status,
+          pin
         });
 
-        const data = await res.json();
-        if (!data.success) {
-          setMsg("Update failed: " + (data.error || "unknown"), false);
-          return;
-        }
+        // IMPORTANT: Apps Script blocks cross-site POST in normal CORS mode.
+        // no-cors lets the request be sent. We confirm by GET after.
+        await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body: body.toString()
+        });
 
-        setMsg(`Updated: Task ${taskId} -> ${status.toUpperCase()}`, true);
+        setMsg(`Sent: Task ${taskId} -> ${status.toUpperCase()} (syncing...)`, true);
+
+        // Confirm by reading statuses again
+        setTimeout(loadStatuses, 900);
       } catch (e) {
         setMsg("POST failed: " + e.message, false);
       }
@@ -136,8 +145,9 @@
     async function setAll(status) {
       for (let i = 1; i <= TOTAL; i++) {
         await setStatus(i, status);
+        await new Promise(r => setTimeout(r, 120)); // small spacing
       }
-      await loadStatuses();
+      setTimeout(loadStatuses, 900);
     }
 
     document.getElementById("openAll").addEventListener("click", () => setAll("open"));
