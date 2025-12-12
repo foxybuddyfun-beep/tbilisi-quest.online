@@ -3,44 +3,107 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tbilisi Quest — Choose Team</title>
+  <title>Tbilisi Quest — Choose Your Team</title>
+
   <style>
-    body{font-family:system-ui,Arial;margin:0;background:#f6f7fb;color:#111827}
-    .wrap{max-width:860px;margin:0 auto;padding:20px}
-    .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
-    a.btn{display:block;text-decoration:none;background:#2563eb;color:#fff;padding:14px 16px;border-radius:14px;margin-top:10px}
-    .muted{color:#667085;font-size:14px}
+    body{
+      font-family:system-ui,Arial;
+      margin:0;
+      background:#f6f7fb;
+      color:#111827;
+    }
+    .wrap{
+      max-width:860px;
+      margin:0 auto;
+      padding:20px;
+    }
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 6px 24px rgba(0,0,0,.06);
+      margin-bottom:16px;
+    }
+    h1{margin:0 0 8px}
+    h2{margin:18px 0 8px;font-size:18px}
+    .muted{
+      color:#667085;
+      font-size:14px;
+      line-height:1.5;
+    }
+    a.btn{
+      display:block;
+      text-decoration:none;
+      background:#2563eb;
+      color:#fff;
+      padding:16px;
+      border-radius:14px;
+      margin-top:12px;
+      font-size:16px;
+      font-weight:600;
+      text-align:center;
+    }
+    a.btn:hover{opacity:.9}
+    .footer{
+      text-align:center;
+      margin-top:24px;
+      font-size:13px;
+      color:#98a2b3;
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
+
+    <!-- Welcome -->
     <div class="card">
-      <h1 style="margin:0 0 6px;">Tbilisi Quest</h1>
-      <div class="muted">Choose your team:</div>
+      <h1>Welcome to Tbilisi Quest</h1>
+      <div class="muted">
+        This is an interactive city quest through the heart of Tbilisi.<br><br>
+        You will explore iconic locations, uncover hidden details,
+        solve playful riddles, and move through the city step by step
+        as your host opens each new challenge.<br><br>
+        Choose your team below and wait for your host to unlock the first location.
+        Good luck — and enjoy the city!
+      </div>
+    </div>
+
+    <!-- Team selection -->
+    <div class="card">
+      <h2>Choose your team</h2>
       <div id="links"></div>
-      <div class="muted" id="err" style="margin-top:10px;"></div>
+      <div class="muted" id="err" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="footer">
+      Tbilisi Quest · Play the city, not the map
     </div>
   </div>
 
   <script type="module">
-    const API_URL = "PASTE_YOUR_EXEC_URL_HERE"; // <-- вставь свой /exec
+    import { API_URL } from "./config.js";
 
     async function loadTeamNames() {
-      const res = await fetch(API_URL, { cache:"no-store" });
+      const res = await fetch(API_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      return data.teamNames || ["Team 1","Team 2","Team 3"];
+      return data.teamNames || ["Team 1", "Team 2", "Team 3"];
     }
 
     try {
       const names = await loadTeamNames();
       const links = document.getElementById("links");
+
       links.innerHTML = `
         <a class="btn" href="team-1.html">Team 1 — ${names[0] || "—"}</a>
         <a class="btn" href="team-2.html">Team 2 — ${names[1] || "—"}</a>
         <a class="btn" href="team-3.html">Team 3 — ${names[2] || "—"}</a>
       `;
     } catch (e) {
-      document.getElementById("err").textContent = "Cannot load team names: " + e.message;
+      document.getElementById("err").textContent =
+        "Cannot load team names. Please refresh the page.";
+      console.error(e);
     }
   </script>
 </body>
