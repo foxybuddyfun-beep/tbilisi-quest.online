@@ -112,9 +112,10 @@ Find the monument and name his friend.`,
 Imagine they decided to form a team to play “What? Where? When?”.
 But only one of them was allowed to join.
 
-Once you understand why he was chosen — name the insect associated with that reason.
+Figure out who was chosen — and why.
+
 Note: this is a humorous fantasy of the author, not a historical fact.`,
-    answers: ["a butterfly"]
+    answers: ["the musician wearing a bow tie (butterfly tie)."]
   },
   Laghidze: {
     title: "Task — Read",
