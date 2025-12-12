@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Team 1</title>
+  <style>
+    body{font-family:system-ui,Arial;margin:0;background:#f6f7fb;color:#111827}
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
+    .muted{color:#667085;font-size:14px}
+    .route{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{background:#eef2ff;padding:8px 10px;border-radius:999px;font-size:14px}
+    .block{border:1px solid #eef0f6;border-radius:14px;padding:14px;margin-top:12px}
+    .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .status{font-size:12px;padding:4px 10px;border-radius:999px}
+    .open{background:#ecfdf3;color:#027a48}
+    .closed{background:#fef3f2;color:#b42318}
+    .locked{filter:blur(7px);user-select:none;pointer-events:none;opacity:.55}
+    .text{white-space:pre-wrap;line-height:1.4}
+    a{color:#2563eb}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 style="margin:0 0 6px;" id="teamTitle">Team</h1>
+      <div class="muted" id="syncLine"></div>
+
+      <h2 style="margin:14px 0 8px;font-size:16px;">Route</h2>
+      <div class="route" id="route"></div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 8px;font-size:18px;">Quest</h2>
+      <div id="content"></div>
+      <div class="muted" id="err" style="margin-top:10px;"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { API_URL } from "./config.js";
+    import { LOCATIONS, TASKS, TEAM_ORDERS } from "./data.js";
+
+    const TEAM_ID = 2;
+
+    // stepIdx: 0..8
+    // item numbers in sheet (1..18):
+    // 1=Location1, 2=Task1, 3=Location2, 4=Task2 ...
+    function itemIndex(stepIdx, type) {
+      return type === "location" ? (2 * stepIdx + 1) : (2 * stepIdx + 2);
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    function render(teamName, statuses) {
+      document.getElementById("teamTitle").textContent = `Team ${TEAM_ID} — ${teamName || ""}`;
+      document.getElementById("syncLine").textContent = `Last sync: ${new Date().toLocaleTimeString()}`;
+
+      const order = TEAM_ORDERS[TEAM_ID];
+
+      // route chips
+      const route = document.getElementById("route");
+      route.innerHTML = order.map((k,i)=>`<div class="chip">${i+1}) ${k}</div>`).join("");
+
+      // content blocks
+      const content = document.getElementById("content");
+      content.innerHTML = "";
+
+      order.forEach((key, i) => {
+        const locItem = itemIndex(i, "location"); // 1,3,5...
+        const taskItem = itemIndex(i, "task");    // 2,4,6...
+
+        const locOpen = (statuses[locItem - 1] || "close") === "open";
+        const taskOpen = (statuses[taskItem - 1] || "close") === "open";
+
+        const loc = LOCATIONS[key];
+        const task = TASKS[key];
+
+        const locBlock = document.createElement("div");
+        locBlock.className = "block";
+        locBlock.innerHTML = `
+          <div class="head">
+            <div><b>${i+1}. ${escapeHtml(loc.title)}</b></div>
+            <span class="status ${locOpen ? "open":"closed"}">${locOpen ? "OPEN":"CLOSED"}</span>
+          </div>
+          <div class="${locOpen ? "" : "locked"}">
+            <div class="text">${escapeHtml(loc.howTo)}</div>
+            ${
+              loc.links?.length
+                ? `<div style="margin-top:8px;">
+                    ${loc.links.map(u => `<div><a href="${u}" target="_blank" rel="noopener">Open in Maps</a></div>`).join("")}
+                  </div>`
+                : ""
+            }
+          </div>
+        `;
+
+        const taskBlock = document.createElement("div");
+        taskBlock.className = "block";
+        taskBlock.innerHTML = `
+          <div class="head">
+            <div><b>${escapeHtml(task.title)}</b></div>
+            <span class="status ${taskOpen ? "open":"closed"}">${taskOpen ? "OPEN":"CLOSED"}</span>
+          </div>
+          <div class="${taskOpen ? "" : "locked"}">
+            <div class="text">${escapeHtml(task.text)}</div>
+          </div>
+        `;
+
+        content.appendChild(locBlock);
+        content.appendChild(taskBlock);
+      });
+    }
+
+    async function load() {
+      const err = document.getElementById("err");
+      err.textContent = "";
+
+      const res = await fetch(`${API_URL}?team=${TEAM_ID}`, { cache:"no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      render(data.teamName, data.statuses || []);
+    }
+
+    // Initial load + refresh loop
+    try {
+      await load();
+      setInterval(() => load().catch(e => {
+        document.getElementById("err").textContent = "Sync error: " + e.message;
+      }), 2000);
+    } catch (e) {
+      document.getElementById("err").textContent = "Cannot load team data: " + e.message;
+    }
+  </script>
+</body>
+</html>
