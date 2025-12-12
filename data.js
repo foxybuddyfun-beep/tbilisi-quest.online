@@ -64,10 +64,14 @@ export const TASKS = {
     title: "Task — Philosopher",
     text:
 `He is a philosopher, and his instrument is consciousness.
-With it, he tightly grasps ideas and explores the blows of existence.
-Yet many visitors who stand before this monument believe that he faces these “blows” with something entirely different.
-Name the item they mistakenly assume is part of his working attire — the tool they imagine helps him do his job.`,
-    answers: ["goalkeeper gloves"]
+The sculptor tried to show how far this philosopher could reach with his mind.
+
+Today, however, he is often confused with another person -
+someone whose main superpower is reaction speed.
+
+Even if you don’t know who he is confused with,
+you can still name him`,
+    answers: ["Mamardashvili"]
   },
   MoMA: {
     title: "Task — Zurab",
