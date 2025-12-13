@@ -13,7 +13,6 @@
     .route{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
     .chip{background:#eef2ff;padding:8px 10px;border-radius:999px;font-size:14px}
 
-    /* Bonus button */
     .bonus-btn{
       display:inline-block;
       background:#16a34a;
@@ -34,22 +33,25 @@
     .closed{background:#fef3f2;color:#b42318}
     .locked{filter:blur(7px);user-select:none;pointer-events:none;opacity:.55}
 
-    .text{white-space:pre-wrap;line-height:1.4}
+    .text{white-space:pre-wrap;line-height:1.45}
     a{color:#2563eb}
 
-    /* Wiki mark */
+    /* Wiki mark (TEAM): keep black (inherit), not bold. Only underline. */
     .wiki-mark{
-      color:#2563eb;
-      text-decoration: underline dotted;
-      cursor:pointer;
-      font-weight:600;
+      color: inherit;
+      font-weight: inherit;
+      cursor: pointer;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     /* Tooltip */
     .wiki-tip{
       position:absolute;
       z-index:9999;
-      max-width:320px;
+      max-width:360px;
       background:#111827;
       color:#fff;
       padding:10px 12px;
@@ -66,15 +68,12 @@
       <h1 style="margin:0 0 6px;" id="teamTitle">Team</h1>
       <div class="muted" id="syncLine"></div>
 
-      <!-- Bonus button on the left, above Route -->
       <a
         class="bonus-btn"
         href="https://drive.google.com/drive/folders/1mMsLaJnvdmLJb3vB7hjofSc9elkjk-sY?usp=sharing"
         target="_blank"
         rel="noopener"
-      >
-        ⭐ Bonus Points
-      </a>
+      >⭐ Bonus Points</a>
 
       <h2 style="margin:0;font-size:16px;">Route</h2>
       <div class="route" id="route"></div>
@@ -93,15 +92,12 @@
 
     const TEAM_ID = 1;
 
-    // stepIdx: 0..8
-    // item numbers in sheet (1..18):
-    // 1=Location1, 2=Task1, 3=Location2, 4=Task2 ...
     function itemIndex(stepIdx, type) {
       return type === "location" ? (2 * stepIdx + 1) : (2 * stepIdx + 2);
     }
 
     function escapeHtml(str){
-      return String(str)
+      return String(str ?? "")
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;");
@@ -128,7 +124,6 @@
       const tail = s.slice(last);
       if (tail) parts.push({ t: "text", v: tail });
 
-      // Escape and preserve line breaks with <br>
       return parts.map(p => {
         if (p.t === "text") return escapeHtml(p.v).replaceAll("\n", "<br>");
         const label = escapeHtml(p.v);
@@ -137,7 +132,7 @@
       }).join("");
     }
 
-    // Tooltip logic: toggle / auto-hide 5s / click outside hides
+    // Tooltip logic: one at a time / auto-hide 5s / toggle / click outside
     let tipEl = null;
     let tipKey = null;
     let hideTimer = null;
@@ -152,7 +147,7 @@
       const info = WIKI?.[key];
       if (!info) return;
 
-      // toggle if same
+      // toggle if same key
       if (tipEl && tipKey === key) { hideTip(); return; }
 
       hideTip();
@@ -167,11 +162,9 @@
       const r = anchorEl.getBoundingClientRect();
       const pad = 8;
 
-      // position below-left, but keep inside viewport
       let left = window.scrollX + r.left;
       let top  = window.scrollY + r.bottom + pad;
 
-      // after append we know width/height
       const w = tipEl.offsetWidth;
       const h = tipEl.offsetHeight;
 
@@ -187,7 +180,6 @@
       hideTimer = setTimeout(hideTip, 5000);
     }
 
-    // Close on click outside
     document.addEventListener("click", (e) => {
       if (!tipEl) return;
       const t = e.target;
@@ -199,7 +191,7 @@
     function attachWikiHandlers(root){
       root.querySelectorAll(".wiki-mark").forEach(el => {
         el.addEventListener("click", (e) => {
-          e.stopPropagation(); // so document click doesn't instantly close
+          e.stopPropagation();
           const key = el.getAttribute("data-wiki") || "";
           showTip(el, key);
         });
@@ -212,11 +204,9 @@
 
       const order = TEAM_ORDERS[TEAM_ID];
 
-      // route chips
       const route = document.getElementById("route");
       route.innerHTML = order.map((k,i)=>`<div class="chip">${i+1}) ${k}</div>`).join("");
 
-      // content blocks
       const content = document.getElementById("content");
       content.innerHTML = "";
 
@@ -238,7 +228,7 @@
             <span class="status ${locOpen ? "open":"closed"}">${locOpen ? "OPEN":"CLOSED"}</span>
           </div>
           <div class="${locOpen ? "" : "locked"}">
-            <div class="text">${escapeHtml(loc.howTo)}</div>
+            <div class="text">${wikiToHtml(loc.howTo)}</div>
             ${
               loc.links?.length
                 ? `<div style="margin-top:8px;">
@@ -264,7 +254,7 @@
         content.appendChild(locBlock);
         content.appendChild(taskBlock);
 
-        // attach wiki handlers inside this task block
+        attachWikiHandlers(locBlock);
         attachWikiHandlers(taskBlock);
       });
     }
