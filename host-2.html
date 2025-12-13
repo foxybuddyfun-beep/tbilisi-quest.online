@@ -39,6 +39,33 @@
 
     .answers a{color:#93c5fd;text-decoration:underline;cursor:pointer;margin-left:10px;white-space:nowrap;font-size:12px}
     .answerBox{color:#fff;margin-left:10px;font-size:12px}
+
+    /* Wiki mark (HOST): text stays white, not bold, only underline */
+    .wiki-mark{
+      color: inherit;
+      font-weight: inherit;
+      cursor: pointer;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(255,255,255,.75);
+    }
+
+    /* Wiki tooltip on HOST: WHITE background + BLACK text */
+    .wiki-tip{
+      position:absolute;
+      z-index:9999;
+      max-width:420px;
+      background:#ffffff;
+      color:#111827;
+      padding:10px 12px;
+      border-radius:12px;
+      box-shadow:0 10px 28px rgba(0,0,0,.45);
+      font-size:13px;
+      line-height:1.35;
+      border:1px solid rgba(17,24,39,.12);
+    }
   </style>
 </head>
 <body>
@@ -65,7 +92,7 @@
 
   <script type="module">
     import { API_URL } from "./config.js";
-    import { LOCATIONS, TASKS, TEAM_ORDERS } from "./data.js";
+    import { LOCATIONS, TASKS, TEAM_ORDERS, WIKI } from "./data.js";
 
     const TEAM_ID = 2;
 
@@ -73,7 +100,7 @@
     const pin = (params.get("pin") || "").trim();
 
     document.getElementById("pinLine").innerHTML =
-      pin ? `PIN: <b>provided</b>` : `<span class="err">No PIN. Open like: <code>host-1.html?pin=7777</code></span>`;
+      pin ? `PIN: <b>provided</b>` : `<span class="err">No PIN. Open like: <code>host-2.html?pin=7777</code></span>`;
 
     function setMsg(text, ok=true){
       const el = document.getElementById("msg");
@@ -109,6 +136,104 @@
         mode:"no-cors",
         headers:{ "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8" },
         body: body.toString()
+      });
+    }
+
+    function escapeHtml(str){
+      return String(str ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;");
+    }
+
+    // Convert text with [[...]] into HTML with clickable wiki marks
+    function wikiToHtml(text){
+      const s = String(text ?? "");
+      const parts = [];
+      const re = /\[\[([\s\S]+?)\]\]/g;
+      let last = 0;
+      let m;
+
+      while ((m = re.exec(s)) !== null) {
+        const before = s.slice(last, m.index);
+        if (before) parts.push({ t: "text", v: before });
+        parts.push({ t: "wiki", v: m[1] });
+        last = re.lastIndex;
+      }
+
+      const tail = s.slice(last);
+      if (tail) parts.push({ t: "text", v: tail });
+
+      return parts.map(p => {
+        if (p.t === "text") return escapeHtml(p.v).replaceAll("\n", "<br>");
+        const label = escapeHtml(p.v);
+        const dataKey = escapeHtml(p.v);
+        return `<span class="wiki-mark" data-wiki="${dataKey}">${label}</span>`;
+      }).join("");
+    }
+
+    // Tooltip logic: one at a time / auto-hide 5s / toggle / click outside
+    let tipEl = null;
+    let tipKey = null;
+    let hideTimer = null;
+
+    function hideTip(){
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      if (tipEl) { tipEl.remove(); tipEl = null; }
+      tipKey = null;
+    }
+
+    function showTip(anchorEl, key){
+      const info = WIKI?.[key];
+      if (!info) return;
+
+      if (tipEl && tipKey === key) { hideTip(); return; }
+
+      hideTip();
+
+      tipEl = document.createElement("div");
+      tipEl.className = "wiki-tip";
+      tipEl.textContent = info;
+
+      document.body.appendChild(tipEl);
+      tipKey = key;
+
+      const r = anchorEl.getBoundingClientRect();
+      const pad = 8;
+
+      let left = window.scrollX + r.left;
+      let top  = window.scrollY + r.bottom + pad;
+
+      const w = tipEl.offsetWidth;
+      const h = tipEl.offsetHeight;
+
+      const maxLeft = window.scrollX + document.documentElement.clientWidth - w - 10;
+      if (left > maxLeft) left = Math.max(10, maxLeft);
+
+      const maxTop = window.scrollY + document.documentElement.clientHeight - h - 10;
+      if (top > maxTop) top = Math.max(window.scrollY + r.top - h - pad, 10);
+
+      tipEl.style.left = `${left}px`;
+      tipEl.style.top = `${top}px`;
+
+      hideTimer = setTimeout(hideTip, 5000);
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!tipEl) return;
+      const t = e.target;
+      const clickedTip = tipEl.contains(t);
+      const clickedMark = t?.classList?.contains("wiki-mark");
+      if (!clickedTip && !clickedMark) hideTip();
+    });
+
+    function attachWikiHandlers(root){
+      root.querySelectorAll(".wiki-mark").forEach(el => {
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const key = el.getAttribute("data-wiki") || "";
+          showTip(el, key);
+        });
       });
     }
 
@@ -155,7 +280,7 @@
             <div class="panel">
               <div class="panelHead">
                 <div>
-                  <div class="panelTitle">${loc.title}</div>
+                  <div class="panelTitle">${escapeHtml(loc.title)}</div>
                   <div class="panelMeta">Sheet item: ${locItem} (Location)</div>
                 </div>
                 <label class="switch" title="Toggle location visibility">
@@ -163,7 +288,7 @@
                   <span class="slider"></span>
                 </label>
               </div>
-              <div class="text">${escapeHtml(loc.howTo || "")}</div>
+              <div class="text">${wikiToHtml(loc.howTo || "")}</div>
               ${mapsLinks ? `<div style="margin-top:10px">${mapsLinks}</div>` : ""}
             </div>
 
@@ -171,7 +296,7 @@
             <div class="panel">
               <div class="panelHead">
                 <div>
-                  <div class="panelTitle">${task.title}</div>
+                  <div class="panelTitle">${escapeHtml(task.title)}</div>
                   <div class="panelMeta">
                     Sheet item: ${taskItem} (Task)
                     <span class="answers" data-key="${key}">
@@ -185,12 +310,15 @@
                   <span class="slider"></span>
                 </label>
               </div>
-              <div class="text">${escapeHtml(task.text || "")}</div>
+              <div class="text">${wikiToHtml(task.text || "")}</div>
             </div>
           </div>
         `;
 
         list.appendChild(step);
+
+        // Attach wiki click handlers for this step
+        attachWikiHandlers(step);
       });
 
       // Toggle handlers
@@ -222,13 +350,6 @@
           });
         });
       });
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;");
     }
 
     async function load(){
