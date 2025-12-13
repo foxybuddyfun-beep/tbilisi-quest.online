@@ -86,10 +86,10 @@ export const TASKS = {
   Hotel: {
     title: "Task",
     text:
-`The statue is of a philosopher, and his instrument is consciousness.
+`[[The statue is of a philosopher]], and his instrument is consciousness.
 The sculptor tried to show how far this philosopher could reach with his mind.
 
-Today, however, he is often confused with another person of the same name —
+Today, however, he is often confused with [[another person of the same name]] —
 someone whose main superpower is reaction speed.
 
 Even if you don’t know who he is confused with,
@@ -228,6 +228,17 @@ and name three components among things you see.`,
       "the spiral staircase"
     ]
   }
+};
+
+/**
+ * Wiki popups (participants)
+ * Key must match exactly what is inside [[...]] in TASKS texts.
+ */
+export const WIKI = {
+  "The statue is of a philosopher":
+    "Georgian philosopher (1930–1990) exploring consciousness, thought, and human awareness",
+  "another person of the same name":
+    "Famous Georgian figure, face on billboards, kids wear his name"
 };
 
 // Order per team (unchanged)
