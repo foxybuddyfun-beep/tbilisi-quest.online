@@ -9,10 +9,10 @@
     .wrap{max-width:980px;margin:0 auto;padding:20px}
     .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
     .muted{color:#667085;font-size:14px}
+
     .route{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
     .chip{background:#eef2ff;padding:8px 10px;border-radius:999px;font-size:14px}
 
-    /* Bonus button */
     .bonus-btn{
       display:inline-block;
       background:#16a34a;
@@ -23,7 +23,6 @@
       font-size:14px;
       font-weight:600;
       margin-bottom:10px;
-      white-space:nowrap;
     }
     .bonus-btn:hover{opacity:.9}
 
@@ -33,8 +32,34 @@
     .open{background:#ecfdf3;color:#027a48}
     .closed{background:#fef3f2;color:#b42318}
     .locked{filter:blur(7px);user-select:none;pointer-events:none;opacity:.55}
-    .text{white-space:pre-wrap;line-height:1.4}
+
+    .text{white-space:pre-wrap;line-height:1.45}
     a{color:#2563eb}
+
+    /* Wiki mark (TEAM): keep black (inherit), not bold. Only underline. */
+    .wiki-mark{
+      color: inherit;
+      font-weight: inherit;
+      cursor: pointer;
+      text-decoration-line: underline;
+      text-decoration-style: dotted;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    /* Tooltip */
+    .wiki-tip{
+      position:absolute;
+      z-index:9999;
+      max-width:360px;
+      background:#111827;
+      color:#fff;
+      padding:10px 12px;
+      border-radius:12px;
+      box-shadow:0 10px 28px rgba(0,0,0,.25);
+      font-size:13px;
+      line-height:1.35;
+    }
   </style>
 </head>
 <body>
@@ -43,15 +68,12 @@
       <h1 style="margin:0 0 6px;" id="teamTitle">Team</h1>
       <div class="muted" id="syncLine"></div>
 
-      <!-- Bonus button on the left, above Route -->
       <a
         class="bonus-btn"
         href="https://drive.google.com/drive/folders/1mMsLaJnvdmLJb3vB7hjofSc9elkjk-sY?usp=sharing"
         target="_blank"
         rel="noopener"
-      >
-        ⭐ Bonus Points
-      </a>
+      >⭐ Bonus Points</a>
 
       <h2 style="margin:0;font-size:16px;">Route</h2>
       <div class="route" id="route"></div>
@@ -66,22 +88,114 @@
 
   <script type="module">
     import { API_URL } from "./config.js";
-    import { LOCATIONS, TASKS, TEAM_ORDERS } from "./data.js";
+    import { LOCATIONS, TASKS, TEAM_ORDERS, WIKI } from "./data.js";
 
     const TEAM_ID = 3;
 
-    // stepIdx: 0..8
-    // item numbers in sheet (1..18):
-    // 1=Location1, 2=Task1, 3=Location2, 4=Task2 ...
     function itemIndex(stepIdx, type) {
       return type === "location" ? (2 * stepIdx + 1) : (2 * stepIdx + 2);
     }
 
     function escapeHtml(str){
-      return String(str)
+      return String(str ?? "")
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
         .replaceAll(">","&gt;");
+    }
+
+    // Convert text with [[...]] into HTML with clickable wiki marks
+    function wikiToHtml(text){
+      const s = String(text ?? "");
+      const parts = [];
+      const re = /\[\[([\s\S]+?)\]\]/g;
+      let last = 0;
+      let m;
+
+      while ((m = re.exec(s)) !== null) {
+        const before = s.slice(last, m.index);
+        if (before) parts.push({ t: "text", v: before });
+
+        const key = m[1];
+        parts.push({ t: "wiki", v: key });
+
+        last = re.lastIndex;
+      }
+
+      const tail = s.slice(last);
+      if (tail) parts.push({ t: "text", v: tail });
+
+      return parts.map(p => {
+        if (p.t === "text") return escapeHtml(p.v).replaceAll("\n", "<br>");
+        const label = escapeHtml(p.v);
+        const dataKey = escapeHtml(p.v);
+        return `<span class="wiki-mark" data-wiki="${dataKey}">${label}</span>`;
+      }).join("");
+    }
+
+    // Tooltip logic: one at a time / auto-hide 5s / toggle / click outside
+    let tipEl = null;
+    let tipKey = null;
+    let hideTimer = null;
+
+    function hideTip(){
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      if (tipEl) { tipEl.remove(); tipEl = null; }
+      tipKey = null;
+    }
+
+    function showTip(anchorEl, key){
+      const info = WIKI?.[key];
+      if (!info) return;
+
+      // toggle if same key
+      if (tipEl && tipKey === key) { hideTip(); return; }
+
+      hideTip();
+
+      tipEl = document.createElement("div");
+      tipEl.className = "wiki-tip";
+      tipEl.textContent = info;
+
+      document.body.appendChild(tipEl);
+      tipKey = key;
+
+      const r = anchorEl.getBoundingClientRect();
+      const pad = 8;
+
+      let left = window.scrollX + r.left;
+      let top  = window.scrollY + r.bottom + pad;
+
+      const w = tipEl.offsetWidth;
+      const h = tipEl.offsetHeight;
+
+      const maxLeft = window.scrollX + document.documentElement.clientWidth - w - 10;
+      if (left > maxLeft) left = Math.max(10, maxLeft);
+
+      const maxTop = window.scrollY + document.documentElement.clientHeight - h - 10;
+      if (top > maxTop) top = Math.max(window.scrollY + r.top - h - pad, 10);
+
+      tipEl.style.left = `${left}px`;
+      tipEl.style.top = `${top}px`;
+
+      hideTimer = setTimeout(hideTip, 5000);
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!tipEl) return;
+      const t = e.target;
+      const clickedTip = tipEl.contains(t);
+      const clickedMark = t?.classList?.contains("wiki-mark");
+      if (!clickedTip && !clickedMark) hideTip();
+    });
+
+    function attachWikiHandlers(root){
+      root.querySelectorAll(".wiki-mark").forEach(el => {
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const key = el.getAttribute("data-wiki") || "";
+          showTip(el, key);
+        });
+      });
     }
 
     function render(teamName, statuses) {
@@ -90,17 +204,15 @@
 
       const order = TEAM_ORDERS[TEAM_ID];
 
-      // route chips
       const route = document.getElementById("route");
       route.innerHTML = order.map((k,i)=>`<div class="chip">${i+1}) ${k}</div>`).join("");
 
-      // content blocks
       const content = document.getElementById("content");
       content.innerHTML = "";
 
       order.forEach((key, i) => {
-        const locItem = itemIndex(i, "location"); // 1,3,5...
-        const taskItem = itemIndex(i, "task");    // 2,4,6...
+        const locItem = itemIndex(i, "location");
+        const taskItem = itemIndex(i, "task");
 
         const locOpen = (statuses[locItem - 1] || "close") === "open";
         const taskOpen = (statuses[taskItem - 1] || "close") === "open";
@@ -116,7 +228,7 @@
             <span class="status ${locOpen ? "open":"closed"}">${locOpen ? "OPEN":"CLOSED"}</span>
           </div>
           <div class="${locOpen ? "" : "locked"}">
-            <div class="text">${escapeHtml(loc.howTo)}</div>
+            <div class="text">${wikiToHtml(loc.howTo)}</div>
             ${
               loc.links?.length
                 ? `<div style="margin-top:8px;">
@@ -135,12 +247,15 @@
             <span class="status ${taskOpen ? "open":"closed"}">${taskOpen ? "OPEN":"CLOSED"}</span>
           </div>
           <div class="${taskOpen ? "" : "locked"}">
-            <div class="text">${escapeHtml(task.text)}</div>
+            <div class="text">${wikiToHtml(task.text)}</div>
           </div>
         `;
 
         content.appendChild(locBlock);
         content.appendChild(taskBlock);
+
+        attachWikiHandlers(locBlock);
+        attachWikiHandlers(taskBlock);
       });
     }
 
@@ -155,7 +270,6 @@
       render(data.teamName, data.statuses || []);
     }
 
-    // Initial load + refresh loop
     try {
       await load();
       setInterval(() => load().catch(e => {
