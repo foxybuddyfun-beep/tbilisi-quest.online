@@ -147,7 +147,7 @@ Find the monument and identify what is his best friend.`,
     text:
 `Here you see a fountain with six musician figures.
 
-The six friends decided to first take part in the TV show “[ [What? Where? When?] ]” in Moscow,
+The six friends decided to first take part in the TV show [[What? Where? When?]] in Moscow,
 and then quickly fly to New York to go to the Opera.
 
 However, only one of them was allowed in — for the same reason in both places.
