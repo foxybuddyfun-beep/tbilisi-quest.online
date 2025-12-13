@@ -26,6 +26,18 @@
     }
     .bonus-btn:hover{opacity:.9}
 
+    /* Friendly note under route */
+    .note{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      background:#f8fafc;
+      border:1px solid #eef0f6;
+      color:#667085;
+      font-size:13px;
+      line-height:1.45;
+    }
+
     .block{border:1px solid #eef0f6;border-radius:14px;padding:14px;margin-top:12px}
     .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
     .status{font-size:12px;padding:4px 10px;border-radius:999px}
@@ -77,6 +89,11 @@
 
       <h2 style="margin:0;font-size:16px;">Route</h2>
       <div class="route" id="route"></div>
+
+      <div class="note">
+        Some questions are simply our own playful inventions — made to keep the quest fun.
+        Please take them with a smile 😊
+      </div>
     </div>
 
     <div class="card">
@@ -250,6 +267,7 @@
             <div class="text">${wikiToHtml(task.text)}</div>
           </div>
         `;
+        
 
         content.appendChild(locBlock);
         content.appendChild(taskBlock);
