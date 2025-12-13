@@ -3,49 +3,44 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Host 1</title>
+  <title>Host — Team 1</title>
   <style>
-    body{font-family:system-ui,Arial;margin:0;background:#0b1220;color:#ffffff}
+    body{font-family:system-ui,Arial;margin:0;background:#0b1220;color:#fff}
     .wrap{max-width:1100px;margin:0 auto;padding:20px}
-    .card{background:#0f1b33;border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35);margin-bottom:14px;border:1px solid rgba(255,255,255,.06)}
-    .muted{color:rgba(255,255,255,.72);font-size:14px}
+    .card{background:#111a2e;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:14px}
+    .muted{color:rgba(255,255,255,.7);font-size:13px;line-height:1.5}
+    .ok{color:#22c55e}
+    .err{color:#ef4444}
+    .btn{background:#2563eb;color:#fff;border:none;padding:10px 12px;border-radius:12px;cursor:pointer}
+    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
 
-    .row{display:flex;gap:12px;flex-wrap:wrap}
-    .block{border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-top:12px;background:rgba(255,255,255,.03)}
-    .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-    .title{font-weight:700}
-    .text{white-space:pre-wrap;line-height:1.45;color:#fff}
+    .step{border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);padding:14px;margin-top:14px}
+    .stepHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .stepTitle{font-weight:750;font-size:16px}
+    .stepSubtitle{margin-top:4px;color:rgba(255,255,255,.7);font-size:12px}
 
-    .status{font-size:12px;padding:4px 10px;border-radius:999px}
-    .open{background:rgba(16,185,129,.18);color:#6ee7b7}
-    .closed{background:rgba(239,68,68,.18);color:#fca5a5}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
 
-    /* Toggle */
-    .toggle{
-      display:flex;align-items:center;gap:10px;
-      background:rgba(255,255,255,.05);
-      padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08)
-    }
-    .toggle input{width:18px;height:18px}
+    .panel{border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:12px}
+    .panelHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+    .panelTitle{font-weight:700}
+    .panelMeta{color:rgba(255,255,255,.65);font-size:12px;margin-top:2px}
+    .text{white-space:pre-wrap;line-height:1.45;color:rgba(255,255,255,.9)}
+    a{color:#93c5fd}
 
-    /* Answer reveal */
-    .answer-link{
-      color:#fff;
-      text-decoration: underline dotted;
-      cursor:pointer;
-      display:inline-block;
-      margin-top:10px;
-    }
-    .answer-box{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius:12px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      display:none;
-    }
+    /* Switch */
+    .switch{position:relative;display:inline-block;width:52px;height:28px;flex:0 0 auto}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.18);transition:.2s;border-radius:999px}
+    .slider:before{position:absolute;content:"";height:22px;width:22px;left:3px;bottom:3px;background:#fff;transition:.2s;border-radius:999px}
+    input:checked + .slider{background:#22c55e}
+    input:checked + .slider:before{transform:translateX(24px)}
 
-    /* Wiki mark (HOST): keep white (inherit), not bold. Only underline. */
+    .answers a{color:#93c5fd;text-decoration:underline;cursor:pointer;margin-left:10px;white-space:nowrap;font-size:12px}
+    .answerBox{color:#fff;margin-left:10px;font-size:12px}
+
+    /* Wiki mark (HOST): text stays white, not bold, only underline */
     .wiki-mark{
       color: inherit;
       font-weight: inherit;
@@ -57,33 +52,41 @@
       text-decoration-color: rgba(255,255,255,.75);
     }
 
-    /* Tooltip */
+    /* Wiki tooltip on HOST: WHITE background + BLACK text */
     .wiki-tip{
       position:absolute;
       z-index:9999;
-      max-width:380px;
-      background:#111827;
-      color:#fff;
+      max-width:420px;
+      background:#ffffff;
+      color:#111827;
       padding:10px 12px;
       border-radius:12px;
       box-shadow:0 10px 28px rgba(0,0,0,.45);
       font-size:13px;
       line-height:1.35;
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid rgba(17,24,39,.12);
     }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1 style="margin:0 0 6px;" id="teamTitle">Host</h1>
+      <h1 style="margin:0 0 6px;" id="hTitle">Host</h1>
+      <div class="muted" id="pinLine"></div>
       <div class="muted" id="syncLine"></div>
-      <div class="muted" id="err" style="margin-top:10px;"></div>
+      <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+        <button class="btn" id="refresh">Refresh</button>
+      </div>
+      <div id="msg" class="muted" style="margin-top:10px;"></div>
     </div>
 
     <div class="card">
       <h2 style="margin:0 0 8px;font-size:18px;">Controls</h2>
-      <div id="content"></div>
+      <div class="muted">
+        You can open/close each location and task separately.<br>
+        Answers are visible only to the host for 3 seconds.
+      </div>
+      <div id="list"></div>
     </div>
   </div>
 
@@ -93,8 +96,47 @@
 
     const TEAM_ID = 1;
 
-    function itemIndex(stepIdx, type) {
+    const params = new URLSearchParams(location.search);
+    const pin = (params.get("pin") || "").trim();
+
+    document.getElementById("pinLine").innerHTML =
+      pin ? `PIN: <b>provided</b>` : `<span class="err">No PIN. Open like: <code>host-1.html?pin=7777</code></span>`;
+
+    function setMsg(text, ok=true){
+      const el = document.getElementById("msg");
+      el.className = ok ? "muted ok" : "muted err";
+      el.textContent = text;
+    }
+
+    // stepIdx 0..8 -> item 1..18
+    // 1=Loc1,2=Task1,3=Loc2,4=Task2...
+    function itemIndex(stepIdx, type){
       return type === "location" ? (2 * stepIdx + 1) : (2 * stepIdx + 2);
+    }
+
+    async function getTeam(){
+      const res = await fetch(`${API_URL}?team=${TEAM_ID}`, { cache:"no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json(); // {teamName, statuses}
+    }
+
+    async function setStatus(item, status){
+      if (!pin) { setMsg("Missing PIN. Add ?pin=7777", false); return; }
+
+      const body = new URLSearchParams({
+        team: String(TEAM_ID),
+        item: String(item),
+        status,
+        pin
+      });
+
+      // no-cors: request is sent; we confirm by GET after
+      await fetch(API_URL, {
+        method:"POST",
+        mode:"no-cors",
+        headers:{ "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8" },
+        body: body.toString()
+      });
     }
 
     function escapeHtml(str){
@@ -104,6 +146,7 @@
         .replaceAll(">","&gt;");
     }
 
+    // Convert text with [[...]] into HTML with clickable wiki marks
     function wikiToHtml(text){
       const s = String(text ?? "");
       const parts = [];
@@ -114,8 +157,7 @@
       while ((m = re.exec(s)) !== null) {
         const before = s.slice(last, m.index);
         if (before) parts.push({ t: "text", v: before });
-        const key = m[1];
-        parts.push({ t: "wiki", v: key });
+        parts.push({ t: "wiki", v: m[1] });
         last = re.lastIndex;
       }
 
@@ -195,139 +237,134 @@
       });
     }
 
-    async function setItemStatus(itemNumber, value){
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type":"application/json" },
-        body: JSON.stringify({ team: TEAM_ID, item: itemNumber, value })
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    }
-
-    function showAnswerTemporarily(boxEl, ms=3000){
-      boxEl.style.display = "block";
-      setTimeout(() => { boxEl.style.display = "none"; }, ms);
-    }
-
     function render(teamName, statuses){
-      document.getElementById("teamTitle").textContent = `Host ${TEAM_ID} — ${teamName || ""}`;
+      document.getElementById("hTitle").textContent = `Host — Team ${TEAM_ID} — ${teamName || ""}`;
       document.getElementById("syncLine").textContent = `Last sync: ${new Date().toLocaleTimeString()}`;
 
       const order = TEAM_ORDERS[TEAM_ID];
-      const content = document.getElementById("content");
-      content.innerHTML = "";
+      const list = document.getElementById("list");
+      list.innerHTML = "";
 
       order.forEach((key, i) => {
-        const locItem = itemIndex(i, "location");
-        const taskItem = itemIndex(i, "task");
+        const locItem = itemIndex(i,"location");
+        const taskItem = itemIndex(i,"task");
 
-        const locOpen = (statuses[locItem - 1] || "close") === "open";
-        const taskOpen = (statuses[taskItem - 1] || "close") === "open";
+        const locOpen = (statuses[locItem-1] || "close") === "open";
+        const taskOpen = (statuses[taskItem-1] || "close") === "open";
 
         const loc = LOCATIONS[key];
         const task = TASKS[key];
 
-        // Location block
-        const locBlock = document.createElement("div");
-        locBlock.className = "block";
-        locBlock.innerHTML = `
-          <div class="head">
-            <div class="title">${i+1}. ${escapeHtml(loc.title)}</div>
-            <span class="status ${locOpen ? "open":"closed"}">${locOpen ? "OPEN":"CLOSED"}</span>
+        const step = document.createElement("div");
+        step.className = "step";
+
+        const mapsLinks = (loc.links || []).map(u =>
+          `<div><a href="${u}" target="_blank" rel="noopener">Open in Maps</a></div>`
+        ).join("");
+
+        const answersHtml =
+          (task.answers?.length || 0) <= 1
+            ? `<a data-a="0">Answer</a>`
+            : task.answers.map((_,idx)=>`<a data-a="${idx}">Answer ${idx+1}</a>`).join("");
+
+        step.innerHTML = `
+          <div class="stepHeader">
+            <div>
+              <div class="stepTitle">Step ${i+1} — ${key}</div>
+              <div class="stepSubtitle">Controls and text for this location & task</div>
+            </div>
           </div>
 
-          <div class="toggle">
-            <input type="checkbox" ${locOpen ? "checked":""} data-item="${locItem}" />
-            <div class="muted">Location toggle</div>
-          </div>
+          <div class="grid">
+            <!-- Location panel -->
+            <div class="panel">
+              <div class="panelHead">
+                <div>
+                  <div class="panelTitle">${escapeHtml(loc.title)}</div>
+                  <div class="panelMeta">Sheet item: ${locItem} (Location)</div>
+                </div>
+                <label class="switch" title="Toggle location visibility">
+                  <input type="checkbox" ${locOpen ? "checked":""} data-item="${locItem}">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="text">${wikiToHtml(loc.howTo || "")}</div>
+              ${mapsLinks ? `<div style="margin-top:10px">${mapsLinks}</div>` : ""}
+            </div>
 
-          <div style="margin-top:10px;">
-            <div class="text">${wikiToHtml(loc.howTo)}</div>
-            ${
-              loc.links?.length
-                ? `<div style="margin-top:8px;">
-                    ${loc.links.map(u => `<div><a href="${u}" target="_blank" rel="noopener" style="color:#93c5fd;">Open in Maps</a></div>`).join("")}
-                  </div>`
-                : ""
-            }
-          </div>
-        `;
-
-        // Task block
-        const taskBlock = document.createElement("div");
-        taskBlock.className = "block";
-        taskBlock.innerHTML = `
-          <div class="head">
-            <div class="title">${escapeHtml(task.title)} — ${escapeHtml(key)}</div>
-            <span class="status ${taskOpen ? "open":"closed"}">${taskOpen ? "OPEN":"CLOSED"}</span>
-          </div>
-
-          <div class="toggle">
-            <input type="checkbox" ${taskOpen ? "checked":""} data-item="${taskItem}" />
-            <div class="muted">Task toggle</div>
-          </div>
-
-          <div style="margin-top:10px;">
-            <div class="text">${wikiToHtml(task.text)}</div>
-
-            <div class="answer-link" data-ans="${i}">Answer</div>
-            <div class="answer-box" id="ans-${i}">
-              ${(task.answers || []).map((a, idx) => `<div>${idx+1}) ${escapeHtml(a)}</div>`).join("")}
+            <!-- Task panel -->
+            <div class="panel">
+              <div class="panelHead">
+                <div>
+                  <div class="panelTitle">${escapeHtml(task.title)}</div>
+                  <div class="panelMeta">
+                    Sheet item: ${taskItem} (Task)
+                    <span class="answers" data-key="${key}">
+                      ${answersHtml}
+                      <span class="answerBox"></span>
+                    </span>
+                  </div>
+                </div>
+                <label class="switch" title="Toggle task visibility">
+                  <input type="checkbox" ${taskOpen ? "checked":""} data-item="${taskItem}">
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="text">${wikiToHtml(task.text || "")}</div>
             </div>
           </div>
         `;
 
-        content.appendChild(locBlock);
-        content.appendChild(taskBlock);
+        list.appendChild(step);
 
-        attachWikiHandlers(locBlock);
-        attachWikiHandlers(taskBlock);
+        // Attach wiki click handlers for this step
+        attachWikiHandlers(step);
+      });
 
-        // Toggle handlers
-        locBlock.querySelector("input[type=checkbox]").addEventListener("change", async (e) => {
-          const item = Number(e.target.getAttribute("data-item"));
-          const value = e.target.checked ? "open" : "close";
+      // Toggle handlers
+      list.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener("change", async (e) => {
+          const item = Number(e.target.dataset.item);
+          const status = e.target.checked ? "open" : "close";
           try {
-            await setItemStatus(item, value);
+            await setStatus(item, status);
+            setMsg(`Sent: item ${item} -> ${status.toUpperCase()} (syncing...)`, true);
+            setTimeout(load, 900);
           } catch (err) {
-            document.getElementById("err").textContent = "Update error: " + err.message;
+            setMsg("POST failed: " + err.message, false);
           }
         });
+      });
 
-        taskBlock.querySelector("input[type=checkbox]").addEventListener("change", async (e) => {
-          const item = Number(e.target.getAttribute("data-item"));
-          const value = e.target.checked ? "open" : "close";
-          try {
-            await setItemStatus(item, value);
-          } catch (err) {
-            document.getElementById("err").textContent = "Update error: " + err.message;
-          }
-        });
+      // Answer reveal (3 seconds)
+      list.querySelectorAll(".answers").forEach(box => {
+        const key = box.dataset.key;
+        const out = box.querySelector(".answerBox");
 
-        // Answer click: show for 3 seconds
-        taskBlock.querySelector(".answer-link").addEventListener("click", () => {
-          const box = taskBlock.querySelector(".answer-box");
-          showAnswerTemporarily(box, 3000);
+        box.querySelectorAll("a[data-a]").forEach(a => {
+          a.addEventListener("click", () => {
+            const idx = Number(a.dataset.a);
+            const answer = (TASKS[key].answers && TASKS[key].answers[idx]) ? TASKS[key].answers[idx] : "";
+            out.textContent = answer;
+            setTimeout(() => { out.textContent = ""; }, 3000);
+          });
         });
       });
     }
 
     async function load(){
-      document.getElementById("err").textContent = "";
-      const res = await fetch(`${API_URL}?team=${TEAM_ID}`, { cache:"no-store" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+      const data = await getTeam();
       render(data.teamName, data.statuses || []);
     }
 
-    try{
+    document.getElementById("refresh").addEventListener("click", () => load().catch(e => {
+      setMsg("Cannot load: " + e.message, false);
+    }));
+
+    try {
       await load();
-      setInterval(() => load().catch(e => {
-        document.getElementById("err").textContent = "Sync error: " + e.message;
-      }), 2000);
-    }catch(e){
-      document.getElementById("err").textContent = "Cannot load host data: " + e.message;
+    } catch (e) {
+      setMsg("Cannot load team: " + e.message, false);
     }
   </script>
 </body>
