@@ -14,7 +14,7 @@ There you will find a sculpture shaped like a head in a raised area with stairs.
   MoMA: {
     title: "Location — MoMA (Museum of Modern Art)",
     howTo:
-`Museum of Modern Art
+`[[Museum of Modern Art]]
 Explore the area around the building from the main entrance.`,
     links: ["https://maps.app.goo.gl/eAj17x2wFSpje9J17"]
   },
@@ -22,7 +22,7 @@ Explore the area around the building from the main entrance.`,
   "National Gallery": {
     title: "Location — National Gallery",
     howTo:
-`National Gallery
+`[[National Gallery]]
 Go to the main entrance.`,
     links: ["https://maps.app.goo.gl/YDCnjBTZRxwo5SY36"]
   },
@@ -60,7 +60,7 @@ Find the sculpture.`,
     howTo:
 `Ambassadori Hotel
 Go to the Ambassadori Hotel from the opposite side of the main entrance, from Ioane Shavteli Street.
-Walk to the monument alley past the puppet theater.
+Walk to the monument alley past the [[puppet theater]].
 At the corner of the building, find the statue of the man holding a cane.`,
     links: ["https://maps.app.goo.gl/KYpMYbJ4c3FxG6Xk9"]
   },
@@ -100,7 +100,7 @@ you can still discover his name. What is it?`,
   MoMA: {
     title: "Task",
     text:
-`You may have never stepped inside the Zurab Tsereteli Museum on Rustaveli Avenue before,
+`You may have never stepped inside the [[Zurab Tsereteli]] Museum on Rustaveli Avenue before,
 but you may have seen his works — they appear all over the world.
 
 One of his most provocative sculptures, based on a famous story from the Bible,
@@ -117,7 +117,7 @@ Try to guess what it is without entering the museum.`,
   "National Gallery": {
     title: "Task",
     text:
-`Find the monument to David Kakabadze near the National Gallery of Georgia.
+`Find the monument to [[David Kakabadze]] near the National Gallery of Georgia.
 
 Three clues hidden on the monument will help you:
 — A written inscription revealing his profession
@@ -135,7 +135,7 @@ What is the third object that hints that this monument is dedicated to an artist
 you will find many monuments.
 
 Some of them depict artists whose profession is not immediately clear.
-But one artist immortalized here can be identified with the help of his best friend.
+But [[one artist]] immortalized here can be identified with the help of his best friend.
 
 Question:
 Find the monument and identify what is his best friend.`,
@@ -147,7 +147,7 @@ Find the monument and identify what is his best friend.`,
     text:
 `Here you see a fountain with six musician figures.
 
-The six friends decided to first take part in the TV show “What? Where? When?” in Moscow,
+The six friends decided to first take part in the TV show “[ [What? Where? When?] ]” in Moscow,
 and then quickly fly to New York to go to the Opera.
 
 However, only one of them was allowed in — for the same reason in both places.
@@ -159,7 +159,7 @@ Figure out who was chosen, and why.`,
   Laghidze: {
     title: "Task",
     text:
-`When colleagues of this person read his surname on this monument,
+`When colleagues of [[this person]] read his surname on this monument,
 they often read it incorrectly.
 
 Question 1:
@@ -176,7 +176,7 @@ How do his colleagues misread his surname?`,
   Ambassadori: {
     title: "Task",
     text:
-`Although this man’s profession is primitive, and it is literally “written on his forehead,”
+`Although [[this man’s]] profession is primitive, and it is literally “written on his forehead,”
 he became well-known thanks to the paintings of a famous Georgian artist.
 
 Hint: This is a quiz, not an art history exam — the answers are right in front of you.
@@ -195,7 +195,7 @@ In which style did he paint?`,
   Gurji: {
     title: "Task",
     text:
-`When people learn this person’s profession,
+`When people learn [[this person’s]] profession,
 they often mistakenly assume what kind of bird is sitting on the arch.
 
 In reality, the bird is just a pigeon.
@@ -215,7 +215,7 @@ Which bird do people think they see on the arch — the one they confuse it with
     title: "Task",
     text:
 `Here, between the sulfur baths and the waterfall —
-the very place where the story of Tbilisi begins —
+the very place where the [[story of Tbilisi begins]] —
 there is no monument called “The DNA of Love.”
 
 But if you truly want to, you can find elements of one.
@@ -231,14 +231,48 @@ and name three components among things you see.`,
 };
 
 /**
- * Wiki popups (participants)
- * Key must match exactly what is inside [[...]] in TASKS texts.
+ * Wiki popups (Team + Host)
+ * Key must match exactly what is inside [[...]]
  */
 export const WIKI = {
   "The statue is of a philosopher":
     "Georgian philosopher (1930–1990) exploring consciousness, thought, and human awareness",
+
   "another person of the same name":
-    "Famous Georgian figure, face on billboards, kids wear his name"
+    "Famous Georgian figure, face on billboards, kids wear his name",
+
+  "Museum of Modern Art":
+    "Contemporary Georgian art, bold forms, Zurab Tsereteli legacy",
+
+  "Zurab Tsereteli":
+    "(1934–2025) Georgian artist, monumental works in USA, France, Spain",
+
+  "National Gallery":
+    "Georgian fine art, national masters, nineteenth–twentieth century classics",
+
+  "David Kakabadze":
+    "(1889–1952) Georgian modernist painter, pioneer of abstract art",
+
+  "one artist":
+    "(1827–1906) Hungarian painter and court artist. Worked in Georgia, depicting its people, landscapes, and cultural life",
+
+  "What? Where? When?":
+    "Legendary intellectual quiz show running over 50 years; many players became iconic, meme-worthy cultural figures known across the post-Soviet world",
+
+  "this person":
+    "A Georgian cultural figure whose creations are instantly recognizable, deeply emotional, and widely known across generations",
+
+  "puppet theater":
+    "Iconic Tbilisi puppet theater famous for poetic, bittersweet performances and its crooked clock tower, where an angel appears daily to strike the hour",
+
+  "this man’s":
+    "The janitor Rashid, who lived in the late nineteenth and early twentieth century, was a close friend of the artist, often helping him despite his own humble and difficult life",
+
+  "this person’s":
+    "A Tbilisi cultural figure (1875–1940), known for emotional depth, powerful expression, and a legacy that lived through voices, memory, and the streets of the city",
+
+  "story of Tbilisi begins":
+    "According to legend, Tbilisi was founded when King Vakhtang Gorgasali discovered hot sulfur springs after his falcon fell into them during a hunt"
 };
 
 // Order per team (unchanged)
