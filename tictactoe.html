@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Крестики-нолики</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --text:#e6e8ef; --muted:#9aa3b2;
+      --btn:#1f2a44; --btn2:#243253; --accent:#4f7cff;
+      --win:#1a3a2b; --line:#2b3654;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 50% 0%, #18264a 0%, var(--bg) 60%);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .app{
+      width:min(520px, 100%);
+      background: rgba(17,26,46,.9);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:20px;
+      padding:16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+    header{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-bottom:12px;
+    }
+    h1{font-size:18px; margin:0; letter-spacing:.2px}
+    .sub{font-size:13px; color:var(--muted); margin-top:4px}
+    .controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    button, select{
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, var(--btn2), var(--btn));
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:14px;
+      cursor:pointer;
+      touch-action: manipulation;
+    }
+    button:active{transform: translateY(1px)}
+    select{cursor:pointer}
+    .score{
+      display:flex;
+      gap:10px;
+      margin:12px 0 10px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      flex:1 1 120px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:10px 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      min-width: 140px;
+    }
+    .pill b{font-size:14px}
+    .pill span{color:var(--muted); font-size:13px}
+    .board-wrap{
+      display:flex;
+      justify-content:center;
+      padding:6px 0 10px;
+    }
+    .board{
+      width:min(360px, 92vw);
+      aspect-ratio: 1 / 1;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    .cell{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: clamp(42px, 10vw, 74px);
+      font-weight: 800;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      position:relative;
+      overflow:hidden;
+    }
+    .cell:hover{background: rgba(255,255,255,.06)}
+    .cell:active{transform: scale(.99)}
+    .cell.win{
+      background: linear-gradient(180deg, rgba(45,168,96,.22), rgba(255,255,255,.04));
+      border-color: rgba(45,168,96,.45);
+    }
+    .cell.disabled{
+      opacity:.75;
+    }
+    .x{color:#7aa2ff}
+    .o{color:#ffd36a}
+    .footer{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .status{
+      font-size:14px;
+      color:var(--text);
+    }
+    .status small{
+      display:block;
+      color:var(--muted);
+      margin-top:2px;
+      font-size:12px;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <main class="app" role="application" aria-label="Крестики-нолики">
+    <header>
+      <div>
+        <h1>Крестики-нолики</h1>
+        <div class="sub">Играй на телефоне. Режим: с другом или против бота.</div>
+      </div>
+      <div class="controls">
+        <select id="mode" aria-label="Режим игры">
+          <option value="pvp">2 игрока</option>
+          <option value="bot_easy">Бот (легко)</option>
+          <option value="bot_hard">Бот (сложно)</option>
+        </select>
+        <button id="newGame">Новая игра</button>
+        <button id="resetAll" title="Сбросить счет">Сброс</button>
+      </div>
+    </header>
+
+    <section class="score" aria-label="Счет">
+      <div class="pill"><b>❌ X</b><span id="scoreX">0</span></div>
+      <div class="pill"><b>🤝 Ничьи</b><span id="scoreD">0</span></div>
+      <div class="pill"><b>⭕ O</b><span id="scoreO">0</span></div>
+    </section>
+
+    <div class="board-wrap">
+      <div class="board" id="board" role="grid" aria-label="Игровое поле 3 на 3"></div>
+    </div>
+
+    <div class="footer">
+      <div class="status" id="status">
+        Ход: <b id="turn">X</b>
+        <small id="statusHint">Нажми на клетку, чтобы поставить знак.</small>
+      </div>
+      <div class="hint">Подсказка: “Сложно” — бот почти не ошибается.</div>
+    </div>
+  </main>
+
+<script>
+(() => {
+  const boardEl = document.getElementById('board');
+  const modeEl = document.getElementById('mode');
+  const newGameBtn = document.getElementById('newGame');
+  const resetAllBtn = document.getElementById('resetAll');
+
+  const scoreXEl = document.getElementById('scoreX');
+  const scoreOEl = document.getElementById('scoreO');
+  const scoreDEl = document.getElementById('scoreD');
+
+  const turnEl = document.getElementById('turn');
+  const statusHintEl = document.getElementById('statusHint');
+
+  const WIN_LINES = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  let cells = Array(9).fill(null);
+  let current = 'X';
+  let gameOver = false;
+  let scores = { X: 0, O: 0, D: 0 };
+
+  // Bot plays as O (всегда)
+  function isBotMode() {
+    return modeEl.value === 'bot_easy' || modeEl.value === 'bot_hard';
+  }
+  function botDifficulty() {
+    return modeEl.value === 'bot_hard' ? 'hard' : 'easy';
+  }
+
+  function renderBoard() {
+    boardEl.innerHTML = '';
+    for (let i = 0; i < 9; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'cell';
+      btn.type = 'button';
+      btn.setAttribute('role', 'gridcell');
+      btn.setAttribute('aria-label', `Клетка ${i+1}`);
+      btn.dataset.index = String(i);
+
+      const v = cells[i];
+      if (v === 'X') btn.innerHTML = '<span class="x">X</span>';
+      if (v === 'O') btn.innerHTML = '<span class="o">O</span>';
+
+      btn.disabled = gameOver || v !== null || (isBotMode() && current === 'O'); // во время хода бота — блокируем тап
+      if (btn.disabled) btn.classList.add('disabled');
+
+      btn.addEventListener('click', () => onHumanMove(i));
+      boardEl.appendChild(btn);
+    }
+  }
+
+  function setStatus(text, hint) {
+    // text: "Ход: X" или "Победа: X"
+    // hint: строка ниже
+    turnEl.textContent = current;
+    statusHintEl.textContent = hint || '';
+  }
+
+  function updateScoresUI() {
+    scoreXEl.textContent = scores.X;
+    scoreOEl.textContent = scores.O;
+    scoreDEl.textContent = scores.D;
+  }
+
+  function checkWinner(state) {
+    for (const line of WIN_LINES) {
+      const [a,b,c] = line;
+      if (state[a] && state[a] === state[b] && state[a] === state[c]) {
+        return { winner: state[a], line };
+      }
+    }
+    if (state.every(v => v !== null)) return { winner: 'D', line: null };
+    return { winner: null, line: null };
+  }
+
+  function highlightWin(line) {
+    if (!line) return;
+    const buttons = [...boardEl.querySelectorAll('.cell')];
+    for (const idx of line) buttons[idx].classList.add('win');
+  }
+
+  function switchTurn() {
+    current = (current === 'X') ? 'O' : 'X';
+    turnEl.textContent = current;
+  }
+
+  function endGame(result) {
+    gameOver = true;
+    if (result.winner === 'D') {
+      scores.D++;
+      setStatus('Ничья', 'Нажми “Новая игра”, чтобы сыграть еще.');
+    } else {
+      scores[result.winner]++;
+      setStatus(`Победа: ${result.winner}`, 'Нажми “Новая игра”, чтобы сыграть еще.');
+    }
+    updateScoresUI();
+    renderBoard();
+    highlightWin(result.line);
+  }
+
+  function makeMove(index, player) {
+    if (gameOver || cells[index] !== null) return false;
+    cells[index] = player;
+    return true;
+  }
+
+  function onHumanMove(i) {
+    if (gameOver) return;
+    if (isBotMode() && current === 'O') return; // ход бота
+    if (!makeMove(i, current)) return;
+
+    const result = checkWinner(cells);
+    renderBoard();
+
+    if (result.winner) return endGame(result);
+
+    switchTurn();
+    renderBoard();
+    setTurnHint();
+
+    if (isBotMode() && current === 'O') {
+      // небольшой "человеческий" тайминг
+      setTimeout(botMove, botDifficulty() === 'hard' ? 200 : 260);
+    }
+  }
+
+  function setTurnHint() {
+    if (gameOver) return;
+    if (isBotMode()) {
+      if (current === 'X') {
+        setStatus('Ход: X', 'Твой ход. Поставь X.');
+      } else {
+        setStatus('Ход: O', 'Ход бота…');
+      }
+    } else {
+      setStatus(`Ход: ${current}`, `Сейчас ходит ${current}.`);
+    }
+  }
+
+  // --- BOT ---
+  function availableMoves(state) {
+    const res = [];
+    for (let i = 0; i < 9; i++) if (state[i] === null) res.push(i);
+    return res;
+  }
+
+  function randomMove(state) {
+    const moves = availableMoves(state);
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+
+  // minimax (бот = O)
+  function minimax(state, player) {
+    const result = checkWinner(state);
+    if (result.winner) {
+      // Оцениваем с позиции O
+      if (result.winner === 'O') return { score: 10 };
+      if (result.winner === 'X') return { score: -10 };
+      return { score: 0 };
+    }
+
+    const moves = availableMoves(state);
+    let best = { score: (player === 'O') ? -Infinity : Infinity, index: moves[0] };
+
+    for (const idx of moves) {
+      const next = state.slice();
+      next[idx] = player;
+
+      const out = minimax(next, player === 'O' ? 'X' : 'O');
+      const score = out.score;
+
+      if (player === 'O') {
+        if (score > best.score) best = { score, index: idx };
+      } else {
+        if (score < best.score) best = { score, index: idx };
+      }
+    }
+    return best;
+  }
+
+  function botMove() {
+    if (gameOver || !isBotMode() || current !== 'O') return;
+
+    let idx;
+    if (botDifficulty() === 'easy') {
+      // иногда умно, иногда случайно
+      idx = (Math.random() < 0.35) ? minimax(cells.slice(), 'O').index : randomMove(cells);
+    } else {
+      idx = minimax(cells.slice(), 'O').index;
+    }
+
+    makeMove(idx, 'O');
+    const result = checkWinner(cells);
+    renderBoard();
+
+    if (result.winner) return endGame(result);
+
+    switchTurn();
+    renderBoard();
+    setTurnHint();
+  }
+
+  function newGame() {
+    cells = Array(9).fill(null);
+    current = 'X';
+    gameOver = false;
+    renderBoard();
+    setTurnHint();
+  }
+
+  function resetAll() {
+    scores = { X: 0, O: 0, D: 0 };
+    updateScoresUI();
+    newGame();
+  }
+
+  modeEl.addEventListener('change', () => {
+    newGame();
+  });
+  newGameBtn.addEventListener('click', newGame);
+  resetAllBtn.addEventListener('click', resetAll);
+
+  // init
+  updateScoresUI();
+  newGame();
+})();
+</script>
+</body>
+</html>
