@@ -37,6 +37,7 @@
     }
     .chip.active{background:#111827;color:#fff;border-color:#111827}
     a{color:#111827}
+    h3.tasktitle{margin:14px 0 6px;font-size:14px;color:#667085;font-weight:700}
   </style>
 </head>
 <body>
@@ -138,224 +139,130 @@
 
       <div class="hr"></div>
 
-      <!-- 2️⃣A Per-task feedback (inserted in best place) -->
-      <h2 data-i18n="sec2a">2️⃣A Task-by-task feedback</h2>
-      <div class="muted" data-i18n="sec2a_note">
-        Short questions about each location. If you don’t remember a task clearly, you can skip it.
+      <!-- Task-by-task -->
+      <h2 data-i18n="sec_tasks">Task-by-task feedback</h2>
+      <div class="muted" data-i18n="sec_tasks_note">
+        Quick check for each task: was it clear, and did you enjoy it?
       </div>
 
-      <!-- Shared selects labels -->
-      <label data-i18n="q_task_clarity">Question 1 — Clarity</label>
-      <div class="small" data-i18n="q_task_clarity_note">How clear was this task for you?</div>
+      <label data-i18n="q_clarity">How clear was this task? (1–5)</label>
+      <label data-i18n="q_impr">What was your impression?</label>
 
-      <label data-i18n="q_task_impression" style="margin-top:10px">Question 2 — Impression</label>
-      <div class="small" data-i18n="q_task_impression_note">How did this task feel overall?</div>
-
-      <div class="hr"></div>
-
-      <!-- 1 -->
-      <h2 data-i18n="task1_title">1) Biltmore Hotel — Philosopher & metaphor</h2>
-      <label for="biltmore_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_biltmore">Biltmore Hotel — philosopher statue</h3>
       <select id="biltmore_clarity" name="biltmore_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="biltmore_impression" data-i18n="q2_impression">Impression</label>
       <select id="biltmore_impression" name="biltmore_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 2 -->
-      <h2 data-i18n="task2_title">2) Museum of Modern Art — Apple</h2>
-      <label for="moma_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_moma">Museum of Modern Art (MoMA) — the “Apple” clue</h3>
       <select id="moma_clarity" name="moma_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="moma_impression" data-i18n="q2_impression">Impression</label>
       <select id="moma_impression" name="moma_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 3 -->
-      <h2 data-i18n="task3_title">3) National Gallery — Artist, brush & palette</h2>
-      <label for="gallery_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_gallery">National Gallery — artist with brush and palette</h3>
       <select id="gallery_clarity" name="gallery_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="gallery_impression" data-i18n="q2_impression">Impression</label>
       <select id="gallery_impression" name="gallery_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 4 -->
-      <h2 data-i18n="task4_title">4) April 9 & Alexander Parks — Artist & dog</h2>
-      <label for="parks_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_parks">April 9 & Alexander Parks — artist and his best friend (dog)</h3>
       <select id="parks_clarity" name="parks_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="parks_impression" data-i18n="q2_impression">Impression</label>
       <select id="parks_impression" name="parks_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 5 -->
-      <h2 data-i18n="task5_title">5) Orbeliani Garden — Six musicians</h2>
-      <label for="orbeliani_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_orbeliani">Orbeliani Garden — the musician with a bow tie</h3>
       <select id="orbeliani_clarity" name="orbeliani_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="orbeliani_impression" data-i18n="q2_impression">Impression</label>
       <select id="orbeliani_impression" name="orbeliani_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 6 -->
-      <h2 data-i18n="task6_title">6) Laghidze — Composer’s surname</h2>
-      <label for="laghidze_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_laghidze">Laghidze — composer / surname misread</h3>
       <select id="laghidze_clarity" name="laghidze_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="laghidze_impression" data-i18n="q2_impression">Impression</label>
       <select id="laghidze_impression" name="laghidze_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 7 -->
-      <h2 data-i18n="task7_title">7) Ambassadori — Pirosmani & primitivism</h2>
-      <label for="ambassadori_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_ambassadori">Ambassadori — Pirosmani / Primitivism</h3>
       <select id="ambassadori_clarity" name="ambassadori_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="ambassadori_impression" data-i18n="q2_impression">Impression</label>
       <select id="ambassadori_impression" name="ambassadori_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 8 -->
-      <h2 data-i18n="task8_title">8) Gurji — Singer & bird</h2>
-      <label for="gurji_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_gurji">Ietim Gurji — singer / “nightingale” confusion</h3>
       <select id="gurji_clarity" name="gurji_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="gurji_impression" data-i18n="q2_impression">Impression</label>
       <select id="gurji_impression" name="gurji_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
-      <div class="hr"></div>
-
-      <!-- 9 -->
-      <h2 data-i18n="task9_title">9) Canyon — DNA of Love</h2>
-      <label for="canyon_clarity" data-i18n="q1_clarity">Clarity</label>
+      <h3 class="tasktitle" data-i18n="t_canyon">Canyon — “DNA of Love” (bridge, locks, spiral stairs)</h3>
       <select id="canyon_clarity" name="canyon_clarity">
         <option value="" data-i18n="select">Select</option>
-        <option value="1" data-i18n="c1">1 — Very confusing</option>
-        <option value="2" data-i18n="c2">2 — Rather confusing</option>
-        <option value="3" data-i18n="c3">3 — Neutral</option>
-        <option value="4" data-i18n="c4">4 — Quite clear</option>
-        <option value="5" data-i18n="c5">5 — Very clear</option>
+        <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
       </select>
-
-      <label for="canyon_impression" data-i18n="q2_impression">Impression</label>
       <select id="canyon_impression" name="canyon_impression">
         <option value="" data-i18n="select">Select</option>
-        <option value="Clever and satisfying" data-i18n="p1">Clever and satisfying</option>
-        <option value="Interesting but confusing" data-i18n="p2">Interesting but confusing</option>
-        <option value="Too abstract / unclear" data-i18n="p3">Too abstract / unclear</option>
-        <option value="Not memorable for me" data-i18n="p4">Not memorable for me</option>
+        <option value="Loved it" data-i18n="imp_loved">🔥 Loved it</option>
+        <option value="Okay" data-i18n="imp_ok">🙂 Okay</option>
+        <option value="Hard/unclear" data-i18n="imp_hard">🤔 Hard / unclear</option>
+        <option value="Not my type" data-i18n="imp_not">🙃 Not my type</option>
       </select>
 
       <div class="hr"></div>
@@ -483,6 +390,7 @@
   </div>
 
   <script>
+    // 1) Paste your Google Apps Script Web App URL here
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwjXNGZMkmLTcNI-psAfJQtmgfDRoMhCRPwXS-S3Q5xY9F9vwiSEKs3FNh758CjD_aM/exec";
 
     const form = document.getElementById('feedbackForm');
@@ -512,6 +420,7 @@
       });
     })();
 
+    // i18n
     const dict = {
       en: {
         title: "Tbilisi City Quest — Feedback",
@@ -548,33 +457,23 @@
         q_hard: "Were any tasks too hard or unclear? If yes — which ones?",
         ph_hard: "Example: The Gurji bird clue was confusing; the Canyon DNA of Love felt too open-ended...",
 
-        sec2a: "2️⃣A Task-by-task feedback",
-        sec2a_note: "Short questions about each location. If you don’t remember a task clearly, you can skip it.",
-        q_task_clarity: "Question 1 — Clarity",
-        q_task_clarity_note: "How clear was this task for you?",
-        q_task_impression: "Question 2 — Impression",
-        q_task_impression_note: "How did this task feel overall?",
-        q1_clarity: "Clarity",
-        q2_impression: "Impression",
-        c1: "1 — Very confusing",
-        c2: "2 — Rather confusing",
-        c3: "3 — Neutral",
-        c4: "4 — Quite clear",
-        c5: "5 — Very clear",
-        p1: "Clever and satisfying",
-        p2: "Interesting but confusing",
-        p3: "Too abstract / unclear",
-        p4: "Not memorable for me",
-
-        task1_title: "1) Biltmore Hotel — Philosopher & metaphor",
-        task2_title: "2) Museum of Modern Art — Apple",
-        task3_title: "3) National Gallery — Artist, brush & palette",
-        task4_title: "4) April 9 & Alexander Parks — Artist & dog",
-        task5_title: "5) Orbeliani Garden — Six musicians",
-        task6_title: "6) Laghidze — Composer’s surname",
-        task7_title: "7) Ambassadori — Pirosmani & primitivism",
-        task8_title: "8) Gurji — Singer & bird",
-        task9_title: "9) Canyon — DNA of Love",
+        sec_tasks: "Task-by-task feedback",
+        sec_tasks_note: "Quick check for each task: was it clear, and did you enjoy it?",
+        q_clarity: "How clear was this task? (1–5)",
+        q_impr: "What was your impression?",
+        t_biltmore: "Biltmore Hotel — philosopher statue",
+        t_moma: "Museum of Modern Art (MoMA) — the “Apple” clue",
+        t_gallery: "National Gallery — artist with brush and palette",
+        t_parks: "April 9 & Alexander Parks — artist and his best friend (dog)",
+        t_orbeliani: "Orbeliani Garden — the musician with a bow tie",
+        t_laghidze: "Laghidze — composer / surname misread",
+        t_ambassadori: "Ambassadori — Pirosmani / Primitivism",
+        t_gurji: "Ietim Gurji — singer / “nightingale” confusion",
+        t_canyon: "Canyon — “DNA of Love” (bridge, locks, spiral stairs)",
+        imp_loved: "🔥 Loved it",
+        imp_ok: "🙂 Okay",
+        imp_hard: "🤔 Hard / unclear",
+        imp_not: "🙃 Not my type",
 
         sec3: "3️⃣ Format and support",
         q_guide: "How do you rate the team support during the quest? (1–5)",
@@ -673,33 +572,23 @@
         q_hard: "Были ли задания, которые показались сложными или неочевидными? Если да — какие?",
         ph_hard: "Например: подсказка про птицу у Gurji была непонятной; 'DNA of Love' в каньоне слишком открытое...",
 
-        sec2a: "2️⃣A Отзывы по каждому заданию",
-        sec2a_note: "Короткие вопросы по каждой локации. Если вы плохо помните задание — можно пропустить.",
-        q_task_clarity: "Вопрос 1 — Понятность",
-        q_task_clarity_note: "Насколько понятным было это задание?",
-        q_task_impression: "Вопрос 2 — Впечатление",
-        q_task_impression_note: "Какое общее ощущение оставило задание?",
-        q1_clarity: "Понятность",
-        q2_impression: "Впечатление",
-        c1: "1 — Совсем непонятно",
-        c2: "2 — Скорее непонятно",
-        c3: "3 — Нейтрально",
-        c4: "4 — Довольно понятно",
-        c5: "5 — Очень понятно",
-        p1: "Умное и приятно решать",
-        p2: "Интересное, но запутанное",
-        p3: "Слишком абстрактное / неясное",
-        p4: "Почти не запомнилось",
-
-        task1_title: "1) Biltmore Hotel — философ и метафора",
-        task2_title: "2) Museum of Modern Art — яблоко",
-        task3_title: "3) National Gallery — художник, кисть и палитра",
-        task4_title: "4) April 9 & Alexander Parks — художник и собака",
-        task5_title: "5) Orbeliani Garden — шесть музыкантов",
-        task6_title: "6) Laghidze — фамилия композитора",
-        task7_title: "7) Ambassadori — Пиросмани и примитивизм",
-        task8_title: "8) Gurji — певец и птица",
-        task9_title: "9) Canyon — DNA of Love",
+        sec_tasks: "Отзывы по заданиям",
+        sec_tasks_note: "Коротко про каждое задание: насколько оно было понятным и понравилось ли оно вам.",
+        q_clarity: "Насколько понятно было задание? (1–5)",
+        q_impr: "Ваше впечатление:",
+        t_biltmore: "Отель Biltmore — статуя философа",
+        t_moma: "Музей современного искусства (MoMA) — подсказка про «яблоко»",
+        t_gallery: "Национальная галерея — художник с кисточкой и палитрой",
+        t_parks: "Парки 9 апреля и Александра — художник и его лучший друг (собака)",
+        t_orbeliani: "Сад Орбелиани — музыкант с бабочкой",
+        t_laghidze: "Лагидзе — композитор / как читают фамилию",
+        t_ambassadori: "Ambassadori — Пиросмани / примитивизм",
+        t_gurji: "Иетим Гурджи — певец / путаница с «соловьём»",
+        t_canyon: "Каньон — «DNA of Love» (мост, замки, спиральная лестница)",
+        imp_loved: "🔥 Очень понравилось",
+        imp_ok: "🙂 Нормально",
+        imp_hard: "🤔 Сложно / неочевидно",
+        imp_not: "🙃 Не мой формат",
 
         sec3: "3️⃣ Формат и поддержка",
         q_guide: "Как вы оцениваете поддержку команды во время квеста? (1–5)",
@@ -784,6 +673,7 @@
     document.getElementById('btnEN').addEventListener('click', () => applyLang('en'));
     document.getElementById('btnRU').addEventListener('click', () => applyLang('ru'));
 
+    // Default language
     applyLang('en');
 
     form.addEventListener('submit', async (e) => {
@@ -792,6 +682,7 @@
       msg.className = '';
       btn.disabled = true;
 
+      // Refresh meta
       document.getElementById('device_time').value = new Date().toISOString();
       document.getElementById('source_page').value = location.href;
 
@@ -802,6 +693,28 @@
 
       data.set('overall_rating', form.overall_rating.value);
       data.set('hard_tasks', form.hard_tasks.value.trim());
+
+      // Task-by-task
+      data.set('biltmore_clarity', form.biltmore_clarity.value);
+      data.set('biltmore_impression', form.biltmore_impression.value);
+      data.set('moma_clarity', form.moma_clarity.value);
+      data.set('moma_impression', form.moma_impression.value);
+      data.set('gallery_clarity', form.gallery_clarity.value);
+      data.set('gallery_impression', form.gallery_impression.value);
+      data.set('parks_clarity', form.parks_clarity.value);
+      data.set('parks_impression', form.parks_impression.value);
+      data.set('orbeliani_clarity', form.orbeliani_clarity.value);
+      data.set('orbeliani_impression', form.orbeliani_impression.value);
+      data.set('laghidze_clarity', form.laghidze_clarity.value);
+      data.set('laghidze_impression', form.laghidze_impression.value);
+      data.set('ambassadori_clarity', form.ambassadori_clarity.value);
+      data.set('ambassadori_impression', form.ambassadori_impression.value);
+      data.set('gurji_clarity', form.gurji_clarity.value);
+      data.set('gurji_impression', form.gurji_impression.value);
+      data.set('canyon_clarity', form.canyon_clarity.value);
+      data.set('canyon_impression', form.canyon_impression.value);
+
+      // Rest
       data.set('guide_rating', form.guide_rating.value);
       data.set('improv_overall', form.improv_overall.value);
       data.set('improv_warmup_rating', form.improv_warmup_rating.value);
@@ -811,39 +724,10 @@
       data.set('recommend', form.recommend.value);
       data.set('improve', form.improve.value.trim());
       data.set('public_review', form.public_review.value.trim());
-
-      // NEW: per-task fields
-      data.set('biltmore_clarity', form.biltmore_clarity.value);
-      data.set('biltmore_impression', form.biltmore_impression.value);
-
-      data.set('moma_clarity', form.moma_clarity.value);
-      data.set('moma_impression', form.moma_impression.value);
-
-      data.set('gallery_clarity', form.gallery_clarity.value);
-      data.set('gallery_impression', form.gallery_impression.value);
-
-      data.set('parks_clarity', form.parks_clarity.value);
-      data.set('parks_impression', form.parks_impression.value);
-
-      data.set('orbeliani_clarity', form.orbeliani_clarity.value);
-      data.set('orbeliani_impression', form.orbeliani_impression.value);
-
-      data.set('laghidze_clarity', form.laghidze_clarity.value);
-      data.set('laghidze_impression', form.laghidze_impression.value);
-
-      data.set('ambassadori_clarity', form.ambassadori_clarity.value);
-      data.set('ambassadori_impression', form.ambassadori_impression.value);
-
-      data.set('gurji_clarity', form.gurji_clarity.value);
-      data.set('gurji_impression', form.gurji_impression.value);
-
-      data.set('canyon_clarity', form.canyon_clarity.value);
-      data.set('canyon_impression', form.canyon_impression.value);
-
-      // Meta
       data.set('device_time', document.getElementById('device_time').value);
       data.set('source_page', document.getElementById('source_page').value);
 
+      // Multi-selects
       data.set('feelings', collectChecked('feelings_opt'));
       data.set('liked_task_types', collectChecked('liked_task_types_opt'));
       data.set('helpful_factors', collectChecked('helpful_factors_opt'));
@@ -861,8 +745,10 @@
           ? 'Спасибо! 🙌 Отзыв отправлен.'
           : 'Thank you! 🙌 Your feedback was sent.';
         msg.className = 'ok';
+
+        const currentLang = langInput.value; // keep language
         form.reset();
-        applyLang(langInput.value);
+        applyLang(currentLang);
       } catch (err) {
         msg.textContent = (langInput.value === 'ru')
           ? 'Ошибка: не удалось отправить. Попробуйте ещё раз.'
