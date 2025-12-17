@@ -1,2 +1,2 @@
 // config.js
-export const API_URL = "https://script.google.com/macros/s/AKfycbyQYyhFtGfgq5Yu_isoO1uNtssZdkD4uUIb4f1BlqkFq1i5nGCq8a4EYBA_f_4FV0Y/exec";
+export const API_URL = "https://script.google.com/macros/s/AKfycbwjXNGZMkmLTcNI-psAfJQtmgfDRoMhCRPwXS-S3Q5xY9F9vwiSEKs3FNh758CjD_aM/exec";
