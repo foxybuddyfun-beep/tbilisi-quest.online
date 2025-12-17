@@ -20,39 +20,11 @@
       box-shadow:0 6px 24px rgba(0,0,0,.06);
       margin-bottom:14px
     }
-
-    h1{
-      margin:0 0 6px;
-      font-size:22px;
-      font-weight:600;
-    }
-
-    .muted{
-      color:#667085;
-      font-size:14px;
-      line-height:1.45;
-      font-weight:400;
-    }
-
-    .qtitle{
-      margin:0 0 4px;
-      font-size:17px;
-      font-weight:600;
-    }
-
-    .qsub{
-      margin:0 0 10px;
-      font-size:13px;
-      color:#667085;
-      font-weight:400;
-    }
-
-    label{
-      display:block;
-      margin:10px 0 6px;
-      font-weight:500;
-    }
-
+    h1{margin:0 0 6px;font-size:22px;font-weight:600}
+    .muted{color:#667085;font-size:14px;line-height:1.45;font-weight:400}
+    .qtitle{margin:0 0 4px;font-size:17px;font-weight:600}
+    .qsub{margin:0 0 10px;font-size:13px;color:#667085;font-weight:400}
+    label{display:block;margin:10px 0 6px;font-weight:500}
     input[type="text"], textarea, select{
       width:100%;
       box-sizing:border-box;
@@ -62,81 +34,35 @@
       font-size:15px;
       background:#fff;
     }
-
     textarea{min-height:90px;resize:vertical}
-
-    .options{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      margin-top:8px;
-    }
-
-    .opt{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      font-size:14px;
-      line-height:1.4;
-    }
-
+    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .opt{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4}
     .opt input{margin-top:3px}
-
-    .hr{
-      height:1px;
-      background:#eef2f6;
-      margin:18px 0;
-    }
-
+    .hr{height:1px;background:#eef2f6;margin:18px 0}
     .btn{
-      display:inline-block;
-      background:#111827;
-      color:#fff;
-      border:0;
-      border-radius:12px;
-      padding:11px 16px;
-      font-size:15px;
-      cursor:pointer;
+      display:inline-block;background:#111827;color:#fff;border:0;border-radius:12px;
+      padding:11px 16px;font-size:15px;cursor:pointer;
     }
-
     .btn:disabled{opacity:.6;cursor:not-allowed}
-
     .ok{color:#16a34a;font-weight:600;margin-top:10px}
     .err{color:#dc2626;font-weight:600;margin-top:10px}
 
-    .langbar{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-
+    .langbar{display:flex;gap:10px;align-items:center;justify-content:space-between}
     .langbtns{display:flex;gap:8px}
-
     .chip{
-      border:1px solid #d0d5dd;
-      background:#fff;
-      border-radius:999px;
-      padding:6px 12px;
+      border:1px solid #d0d5dd;background:#fff;border-radius:999px;
+      padding:6px 12px;font-size:13px;cursor:pointer;font-weight:400;
+    }
+    .chip.active{background:#111827;color:#fff;border-color:#111827}
+
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:760px){ .grid2{grid-template-columns:1fr} }
+
+    .taskLabel{
       font-size:13px;
-      cursor:pointer;
-      font-weight:400;
-    }
-
-    .chip.active{
-      background:#111827;
-      color:#fff;
-      border-color:#111827;
-    }
-
-    .grid2{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
-    @media (max-width:760px){
-      .grid2{grid-template-columns:1fr}
+      color:#667085;
+      margin-top:2px;
+      line-height:1.35;
     }
   </style>
 </head>
@@ -153,27 +79,22 @@
         </div>
       </div>
       <div class="langbtns">
-        <button type="button" class="chip active" id="btnEN">EN</button>
-        <button type="button" class="chip" id="btnRU">RU</button>
+        <button type="button" class="chip" id="btnEN">EN</button>
+        <button type="button" class="chip active" id="btnRU">RU</button>
       </div>
     </div>
   </div>
 
   <form id="feedbackForm" class="card">
-
-    <input type="hidden" name="lang" id="lang" value="en"/>
+    <input type="hidden" name="lang" id="lang" value="ru"/>
     <input type="hidden" name="device_time" id="device_time"/>
     <input type="hidden" name="source_page" id="source_page"/>
 
     <!-- 1 -->
-    <div class="qtitle" data-i18n="q1_title">
-      How did you like the Tbilisi City Quest? (1–10)
-    </div>
-    <div class="qsub" data-i18n="q1_sub">
-      10 means you liked it very much.
-    </div>
+    <div class="qtitle" data-i18n="q1_title">Как вам в целом понравился Tbilisi City Quest? (1–10)</div>
+    <div class="qsub" data-i18n="q1_sub">10 — это максимум (значит вам очень понравилось).</div>
     <select name="overall_10" required>
-      <option value="">Select</option>
+      <option value="" data-i18n="select">Выберите</option>
       <option>10</option><option>9</option><option>8</option><option>7</option><option>6</option>
       <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
     </select>
@@ -181,114 +102,266 @@
     <div class="hr"></div>
 
     <!-- 2 -->
-    <div class="qtitle" data-i18n="q2_title">What did you like the most?</div>
-    <div class="qsub" data-i18n="q2_sub">You can choose several options.</div>
+    <div class="qtitle" data-i18n="q2_title">Что понравилось больше всего?</div>
+    <div class="qsub" data-i18n="q2_sub">Можно выбрать несколько вариантов.</div>
     <div class="options">
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Tasks & questions"><span data-i18n="lm1">Tasks and questions</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Culture & history"><span data-i18n="lm2">Culture and history</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Route & city"><span data-i18n="lm3">Route and city</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Bonus questions"><span data-i18n="lm4">Bonus questions</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Improv game at the hotel"><span data-i18n="lm5">Improv game at the hotel</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Khinkali at Zodiaco"><span data-i18n="lm6">Khinkali at Zodiaco</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Tasks & questions"><span data-i18n="lm1">Задания и вопросы</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Culture & history"><span data-i18n="lm2">Культура и история</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Route & city"><span data-i18n="lm3">Маршрут и город</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Bonus questions"><span data-i18n="lm4">Дополнительные вопросы</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Improv game at the hotel"><span data-i18n="lm5">Импровизационная игра в отеле</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Khinkali at Zodiaco"><span data-i18n="lm6">Хинкали в Zodiaco</span></label>
     </div>
 
     <div class="hr"></div>
 
     <!-- 3 -->
-    <div class="qtitle" data-i18n="q3_title">What was missing?</div>
-    <div class="qsub" data-i18n="q3_sub">What task types would you like to add?</div>
+    <div class="qtitle" data-i18n="q3_title">Каких заданий вам не хватило?</div>
+    <div class="qsub" data-i18n="q3_sub">Какие типы заданий добавить в следующий раз? (можно выбрать несколько)</div>
     <div class="options">
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Logic puzzles"><span data-i18n="at1">Logic puzzles</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Music contests"><span data-i18n="at2">Music contests</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Painting tasks"><span data-i18n="at3">Painting or drawing tasks</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Emotional tasks"><span data-i18n="at4">Emotional or scary tasks</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Sport challenges"><span data-i18n="at5">Sport or obstacle challenges</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Logic puzzles"><span data-i18n="at1">Логические задачи</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Music contests"><span data-i18n="at2">Музыкальные конкурсы</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Painting tasks"><span data-i18n="at3">Задания с живописью — что-то изобразить</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Emotional tasks"><span data-i18n="at4">Эмоционально-пугающие задания</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Sport challenges"><span data-i18n="at5">Задания на спортивное преодоление препятствий</span></label>
     </div>
 
     <div class="hr"></div>
 
-    <!-- 4 Hard tasks -->
-    <div class="qtitle" data-i18n="q4_title">Were any tasks difficult or unclear?</div>
-    <div class="qsub" data-i18n="q4_sub">You can choose several.</div>
+    <!-- 4 -->
+    <div class="qtitle" data-i18n="q4_title">Были ли задания, которые показались сложными или неочевидными?</div>
+    <div class="qsub" data-i18n="q4_sub">Можно выбрать несколько вариантов.</div>
 
     <div class="options" id="hardTasksBlock">
       <label class="opt">
         <input type="checkbox" name="hard_tasks_opt" value="None" data-none>
-        <span data-i18n="none">None</span>
+        <span data-i18n="none">Нет</span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 1">
-        <span>Biltmore Hotel — <span data-i18n="t1d">The philosopher’s last name</span></span>
+        <span>
+          <span data-i18n="task1_title">Отель Biltmore</span>
+          <span class="taskLabel" data-i18n="task1_desc">— Фамилия философа.</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 2">
-        <span>MoMA — <span data-i18n="t2d">Apple</span></span>
+        <span>
+          <span data-i18n="task2_title">Музей современного искусства (MoMA)</span>
+          <span class="taskLabel" data-i18n="task2_desc">— Яблоко</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 3">
-        <span>National Gallery — <span data-i18n="t3d">Artist with a brush and palette</span></span>
+        <span>
+          <span data-i18n="task3_title">Национальная галерея</span>
+          <span class="taskLabel" data-i18n="task3_desc">— Художник с кисточкой и палитрой</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 4">
-        <span>Alexander Park — <span data-i18n="t4d">Artist’s monument and a dog</span></span>
+        <span>
+          <span data-i18n="task4_title">Парк Александра</span>
+          <span class="taskLabel" data-i18n="task4_desc">— Памятник художнику и собака</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 5">
-        <span>Orbeliani Garden — <span data-i18n="t5d">Six musicians, one with a bow tie</span></span>
+        <span>
+          <span data-i18n="task5_title">Сад Орбелиани</span>
+          <span class="taskLabel" data-i18n="task5_desc">— 6 музыкантов: найдите того, кто в бабочке</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 6">
-        <span>Laghidze — <span data-i18n="t6d">Composer</span></span>
+        <span>
+          <span data-i18n="task6_title">Лагидзе</span>
+          <span class="taskLabel" data-i18n="task6_desc">— Композитор</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 7">
-        <span>Ambassadori Hotel — <span data-i18n="t7d">Pirosmani picture hero</span></span>
+        <span>
+          <span data-i18n="task7_title">Ambassadori Hotel</span>
+          <span class="taskLabel" data-i18n="task7_desc">— Персонаж с Пиросмани</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 8">
-        <span>Ietim Gurji — <span data-i18n="t8d">Singer and bird</span></span>
+        <span>
+          <span data-i18n="task8_title">Иетим Гурджи</span>
+          <span class="taskLabel" data-i18n="task8_desc">— Певец и птица</span>
+        </span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 9">
-        <span>Canyon — <span data-i18n="t9d">“DNA of Love”</span></span>
+        <span>
+          <span data-i18n="task9_title">Каньон</span>
+          <span class="taskLabel" data-i18n="task9_desc">— Расшифруйте “ДНК любви”</span>
+        </span>
       </label>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- 5 -->
+    <div class="qtitle" data-i18n="q5_title">Оцените каждое из 9 заданий (1–5)</div>
+    <div class="qsub" data-i18n="q5_sub">1 — не понравилось, 5 — очень понравилось.</div>
+
+    <div class="grid2">
+      <div>
+        <label data-i18n="task1_title">Отель Biltmore</label>
+        <div class="taskLabel" data-i18n="task1_desc">— Фамилия философа.</div>
+        <select name="task1_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task2_title">Музей современного искусства (MoMA)</label>
+        <div class="taskLabel" data-i18n="task2_desc">— Яблоко</div>
+        <select name="task2_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task3_title">Национальная галерея</label>
+        <div class="taskLabel" data-i18n="task3_desc">— Художник с кисточкой и палитрой</div>
+        <select name="task3_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task4_title">Парк Александра</label>
+        <div class="taskLabel" data-i18n="task4_desc">— Памятник художнику и собака</div>
+        <select name="task4_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task5_title">Сад Орбелиани</label>
+        <div class="taskLabel" data-i18n="task5_desc">— 6 музыкантов: найдите того, кто в бабочке</div>
+        <select name="task5_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task6_title">Лагидзе</label>
+        <div class="taskLabel" data-i18n="task6_desc">— Композитор</div>
+        <select name="task6_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task7_title">Ambassadori Hotel</label>
+        <div class="taskLabel" data-i18n="task7_desc">— Персонаж с Пиросмани</div>
+        <select name="task7_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task8_title">Иетим Гурджи</label>
+        <div class="taskLabel" data-i18n="task8_desc">— Певец и птица</div>
+        <select name="task8_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
+
+      <div>
+        <label data-i18n="task9_title">Каньон</label>
+        <div class="taskLabel" data-i18n="task9_desc">— Расшифруйте “ДНК любви”</div>
+        <select name="task9_rating" class="ratingSelect">
+          <option value="" data-i18n="select">Выберите</option>
+          <option value="5" data-rate="5"></option>
+          <option value="4" data-rate="4"></option>
+          <option value="3" data-rate="3"></option>
+          <option value="2" data-rate="2"></option>
+          <option value="1" data-rate="1"></option>
+        </select>
+      </div>
     </div>
 
     <div class="hr"></div>
 
     <!-- 6 -->
-    <div class="qtitle" data-i18n="q6_title">Did you feel tired or lose focus?</div>
+    <div class="qtitle" data-i18n="q6_title">Был ли момент, когда вы устали или потеряли фокус?</div>
     <select name="fatigue">
-      <option value="">Select</option>
-      <option value="No — it stayed dynamic" data-i18n="fa1">No — it stayed dynamic</option>
-      <option value="Yes — around the middle" data-i18n="fa2">Yes — around the middle</option>
-      <option value="Yes — closer to the end" data-i18n="fa3">Yes — closer to the end</option>
+      <option value="" data-i18n="select">Выберите</option>
+      <option value="No — it stayed dynamic" data-i18n="fa1">Нет — всё прошло динамично</option>
+      <option value="Yes — around the middle" data-i18n="fa2">Да — ближе к середине</option>
+      <option value="Yes — closer to the end" data-i18n="fa3">Да — ближе к концу</option>
     </select>
 
     <div class="hr"></div>
 
     <!-- 7 -->
-    <div class="qtitle" data-i18n="q7_title">Your favorite moment</div>
+    <div class="qtitle" data-i18n="q7_title">Ваш любимый момент квеста</div>
     <textarea name="favorite_moment" data-i18n-ph="ph_fav"></textarea>
 
     <div class="hr"></div>
 
     <!-- 8 -->
-    <div class="qtitle" data-i18n="q8_title">What should we improve or add next time?</div>
+    <div class="qtitle" data-i18n="q8_title">Что бы вы улучшили или добавили в следующий раз?</div>
     <textarea name="improve" data-i18n-ph="ph_improve"></textarea>
 
     <div class="hr"></div>
 
     <!-- 9 -->
-    <div class="qtitle" data-i18n="q9_title">Public review (anonymous)</div>
+    <div class="qtitle" data-i18n="q9_title">Отзыв для публикации (анонимный)</div>
     <div class="muted" data-i18n="pub_note">
-      Questions 1–8 are for internal improvement. Question 9 may be published.
+      Вопросы 1–8 мы собираем для внутреннего анализа. Вопрос 9 — отдельный: анонимный отзыв, который мы можем опубликовать.
     </div>
     <textarea name="public_review" data-i18n-ph="ph_public"></textarea>
 
     <div class="hr"></div>
 
-    <button class="btn" type="submit" data-i18n="send">Send feedback</button>
+    <button class="btn" id="submitBtn" type="submit" data-i18n="send">Отправить</button>
     <div id="msg"></div>
   </form>
 </div>
@@ -297,35 +370,298 @@
   import { API_URL } from './config.js';
 
   const form = document.getElementById('feedbackForm');
+  const msg = document.getElementById('msg');
+  const btn = document.getElementById('submitBtn');
+  const langInput = document.getElementById('lang');
+
   document.getElementById('device_time').value = new Date().toISOString();
   document.getElementById('source_page').value = location.href;
 
-  /* protection for hard tasks */
-  const block = document.getElementById('hardTasksBlock');
-  const noneBox = block.querySelector('[data-none]');
-  const taskBoxes = block.querySelectorAll('input[name="hard_tasks_opt"]:not([data-none])');
+  function applyRatingLabels(lang) {
+    const map = {
+      en: {
+        5: "5 — 😍 Loved it",
+        4: "4 — 😊 Liked it",
+        3: "3 — 😐 Okay",
+        2: "2 — 😕 Not great",
+        1: "1 — 😞 Did not like"
+      },
+      ru: {
+        5: "5 — 😍 Очень понравилось",
+        4: "4 — 😊 Понравилось",
+        3: "3 — 😐 Нормально",
+        2: "2 — 😕 Не очень",
+        1: "1 — 😞 Не понравилось"
+      }
+    };
 
-  noneBox.addEventListener('change', () => {
+    document.querySelectorAll('option[data-rate]').forEach(opt => {
+      const k = opt.getAttribute('data-rate');
+      opt.textContent = map[lang][k];
+    });
+  }
+
+  function applyLang(lang) {
+    langInput.value = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[lang][key]) el.textContent = dict[lang][key];
+    });
+
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.getAttribute('data-i18n-ph');
+      if (dict[lang][key]) el.setAttribute('placeholder', dict[lang][key]);
+    });
+
+    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+    document.getElementById('btnRU').classList.toggle('active', lang === 'ru');
+
+    applyRatingLabels(lang);
+  }
+
+  function collectChecked(name) {
+    return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`))
+      .map(n => n.value)
+      .join("; ");
+  }
+
+  /* Protection: None vs tasks */
+  const hardBlock = document.getElementById('hardTasksBlock');
+  const noneBox = hardBlock.querySelector('[data-none]');
+  const taskBoxes = hardBlock.querySelectorAll('input[name="hard_tasks_opt"]:not([data-none])');
+
+  function refreshHardTasksProtection() {
+    const anyTaskChecked = Array.from(taskBoxes).some(b => b.checked);
+
     if (noneBox.checked) {
       taskBoxes.forEach(b => { b.checked = false; b.disabled = true; });
-    } else {
-      taskBoxes.forEach(b => b.disabled = false);
+      noneBox.disabled = false;
+      return;
     }
+
+    taskBoxes.forEach(b => b.disabled = false);
+    noneBox.disabled = anyTaskChecked;
+  }
+
+  noneBox.addEventListener('change', () => {
+    refreshHardTasksProtection();
   });
 
   taskBoxes.forEach(b => {
     b.addEventListener('change', () => {
       if (b.checked) noneBox.checked = false;
-      noneBox.disabled = Array.from(taskBoxes).some(t => t.checked);
+      refreshHardTasksProtection();
     });
   });
 
+  const dict = {
+    en: {
+      title: "Tbilisi City Quest — Feedback",
+      intro: "Thank you for joining the quest. Your feedback helps improve future quests.",
+      select: "Select",
+
+      q1_title: "How did you like the Tbilisi City Quest? (1–10)",
+      q1_sub: "10 means you liked it very much.",
+
+      q2_title: "What did you like the most?",
+      q2_sub: "You can choose several options.",
+      lm1: "Tasks & questions",
+      lm2: "Culture & history",
+      lm3: "Route & city",
+      lm4: "Bonus questions",
+      lm5: "Improv game at the hotel",
+      lm6: "Khinkali at Zodiaco",
+
+      q3_title: "What was missing?",
+      q3_sub: "What task types would you like to add? (choose any)",
+      at1: "Logic puzzles",
+      at2: "Music contests",
+      at3: "Painting tasks (draw something)",
+      at4: "Emotional / scary tasks",
+      at5: "Sport / obstacle challenges",
+
+      q4_title: "Were any tasks difficult or unclear?",
+      q4_sub: "You can choose several.",
+      none: "None",
+
+      task1_title: "Biltmore Hotel",
+      task1_desc: "— The philosopher’s last name",
+      task2_title: "Museum of Modern Art (MoMA)",
+      task2_desc: "— Apple",
+      task3_title: "National Gallery",
+      task3_desc: "— The artist with a brush and a palette",
+      task4_title: "Alexander Park",
+      task4_desc: "— The artist’s monument and a dog",
+      task5_title: "Orbeliani Garden",
+      task5_desc: "— Six musicians: the one wearing a bow tie",
+      task6_title: "Laghidze",
+      task6_desc: "— Composer",
+      task7_title: "Ambassadori Hotel",
+      task7_desc: "— Pirosmani picture hero",
+      task8_title: "Ietim Gurji",
+      task8_desc: "— Singer and bird",
+      task9_title: "Canyon",
+      task9_desc: "— “DNA of Love”",
+
+      q5_title: "Rate each task (1–5)",
+      q5_sub: "1 = did not like, 5 = loved it.",
+
+      q6_title: "Did you feel tired or lose focus?",
+      fa1: "No — it stayed dynamic",
+      fa2: "Yes — around the middle",
+      fa3: "Yes — closer to the end",
+
+      q7_title: "Your favorite moment of the quest",
+      ph_fav: "A specific scene, a funny moment, a place, a task, anything.",
+
+      q8_title: "What should we improve or add next time?",
+      ph_improve: "Be brutally honest — this is the most valuable field 🙂",
+
+      q9_title: "Public review (anonymous)",
+      pub_note: "Questions 1–8 are for internal improvement. Question 9 is separate: an anonymous review we may publish.",
+      ph_public: "Write a short honest review so other people can understand the impression of the quest.",
+
+      send: "Send feedback"
+    },
+
+    ru: {
+      title: "Tbilisi City Quest — Обратная связь",
+      intro: "Спасибо, что участвовали в квесте. Эта обратная связь поможет улучшить следующие квесты.",
+      select: "Выберите",
+
+      q1_title: "Как вам в целом понравился Tbilisi City Quest? (1–10)",
+      q1_sub: "10 — это максимум (значит вам очень понравилось).",
+
+      q2_title: "Что понравилось больше всего?",
+      q2_sub: "Можно выбрать несколько вариантов.",
+      lm1: "Задания и вопросы",
+      lm2: "Культура и история",
+      lm3: "Маршрут и город",
+      lm4: "Дополнительные вопросы",
+      lm5: "Импровизационная игра в отеле",
+      lm6: "Хинкали в Zodiaco",
+
+      q3_title: "Каких заданий вам не хватило?",
+      q3_sub: "Какие типы заданий добавить в следующий раз? (можно выбрать несколько)",
+      at1: "Логические задачи",
+      at2: "Музыкальные конкурсы",
+      at3: "Задания с живописью — что-то изобразить",
+      at4: "Эмоционально-пугающие задания",
+      at5: "Задания на спортивное преодоление препятствий",
+
+      q4_title: "Были ли задания, которые показались сложными или неочевидными?",
+      q4_sub: "Можно выбрать несколько вариантов.",
+      none: "Нет",
+
+      task1_title: "Отель Biltmore",
+      task1_desc: "— Фамилия философа.",
+      task2_title: "Музей современного искусства (MoMA)",
+      task2_desc: "— Яблоко",
+      task3_title: "Национальная галерея",
+      task3_desc: "— Художник с кисточкой и палитрой",
+      task4_title: "Парк Александра",
+      task4_desc: "— Памятник художнику и собака",
+      task5_title: "Сад Орбелиани",
+      task5_desc: "— 6 музыкантов: найдите того, кто в бабочке",
+      task6_title: "Лагидзе",
+      task6_desc: "— Композитор",
+      task7_title: "Ambassadori Hotel",
+      task7_desc: "— Персонаж с Пиросмани",
+      task8_title: "Иетим Гурджи",
+      task8_desc: "— Певец и птица",
+      task9_title: "Каньон",
+      task9_desc: "— Расшифруйте “ДНК любви”",
+
+      q5_title: "Оцените каждое из 9 заданий (1–5)",
+      q5_sub: "1 — не понравилось, 5 — очень понравилось.",
+
+      q6_title: "Был ли момент, когда вы устали или потеряли фокус?",
+      fa1: "Нет — всё прошло динамично",
+      fa2: "Да — ближе к середине",
+      fa3: "Да — ближе к концу",
+
+      q7_title: "Ваш любимый момент квеста",
+      ph_fav: "Конкретная сцена, смешной момент, место, задание — что угодно.",
+
+      q8_title: "Что бы вы улучшили или добавили в следующий раз?",
+      ph_improve: "Будьте честными — это самое ценное поле 🙂",
+
+      q9_title: "Отзыв для публикации (анонимный)",
+      pub_note: "Вопросы 1–8 мы собираем для внутреннего анализа. Вопрос 9 — отдельный: анонимный отзыв, который мы можем опубликовать.",
+      ph_public: "Напишите честный общий отзыв, чтобы другие люди могли понять впечатление о квесте.",
+
+      send: "Отправить"
+    }
+  };
+
+  document.getElementById('btnEN').addEventListener('click', () => applyLang('en'));
+  document.getElementById('btnRU').addEventListener('click', () => applyLang('ru'));
+
+  // default RU
+  applyLang('ru');
+  refreshHardTasksProtection();
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    const data = new URLSearchParams(new FormData(form));
-    await fetch(API_URL, { method:'POST', mode:'no-cors', body:data });
-    document.getElementById('msg').textContent = 'Thank you! 🙌';
-    form.reset();
+    msg.textContent = '';
+    msg.className = '';
+    btn.disabled = true;
+
+    document.getElementById('device_time').value = new Date().toISOString();
+    document.getElementById('source_page').value = location.href;
+
+    const data = new URLSearchParams();
+    data.set('lang', langInput.value);
+    data.set('device_time', document.getElementById('device_time').value);
+    data.set('source_page', document.getElementById('source_page').value);
+
+    data.set('overall_10', form.overall_10.value);
+    data.set('liked_most', collectChecked('liked_most_opt'));
+    data.set('add_types', collectChecked('add_types_opt'));
+    data.set('hard_tasks', collectChecked('hard_tasks_opt'));
+
+    data.set('task1_rating', form.task1_rating.value);
+    data.set('task2_rating', form.task2_rating.value);
+    data.set('task3_rating', form.task3_rating.value);
+    data.set('task4_rating', form.task4_rating.value);
+    data.set('task5_rating', form.task5_rating.value);
+    data.set('task6_rating', form.task6_rating.value);
+    data.set('task7_rating', form.task7_rating.value);
+    data.set('task8_rating', form.task8_rating.value);
+    data.set('task9_rating', form.task9_rating.value);
+
+    data.set('fatigue', form.fatigue.value);
+    data.set('favorite_moment', (form.favorite_moment.value || '').trim());
+    data.set('improve', (form.improve.value || '').trim());
+    data.set('public_review', (form.public_review.value || '').trim());
+
+    try {
+      await fetch(API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: data.toString()
+      });
+
+      msg.textContent = (langInput.value === 'ru')
+        ? 'Спасибо! 🙌 Отзыв отправлен.'
+        : 'Thank you! 🙌 Your feedback was sent.';
+      msg.className = 'ok';
+
+      const currentLang = langInput.value;
+      form.reset();
+      applyLang(currentLang);
+      refreshHardTasksProtection();
+    } catch (err) {
+      msg.textContent = (langInput.value === 'ru')
+        ? 'Ошибка: не удалось отправить. Попробуйте ещё раз.'
+        : 'Error: could not send. Please try again.';
+      msg.className = 'err';
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+    }
   });
 </script>
 
