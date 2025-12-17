@@ -11,7 +11,6 @@
     .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
     h1{margin:0 0 6px;font-size:22px}
     .muted{color:#667085;font-size:14px;line-height:1.45}
-    h2{margin:18px 0 10px;font-size:18px}
     .qtitle{margin:0 0 6px;font-size:18px;font-weight:800}
     .qsub{margin:0 0 10px;font-size:13px;color:#667085}
     label{display:block;margin:10px 0 6px;font-weight:700}
@@ -40,7 +39,6 @@
     .chip.active{background:#111827;color:#fff;border-color:#111827}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media (max-width:760px){ .grid2{grid-template-columns:1fr} }
-    a{color:#111827}
   </style>
 </head>
 
@@ -60,228 +58,77 @@
         <button type="button" class="chip" id="btnRU">RU</button>
       </div>
     </div>
-    <div class="hr"></div>
-    <div class="muted" data-i18n="timehint">
-      This form takes ~5 minutes. Please answer honestly — it really helps 🙌
-    </div>
   </div>
 
   <form id="feedbackForm" class="card">
-    <input type="hidden" name="lang" id="lang" value="en"/>
-    <input type="hidden" name="device_time" id="device_time" value=""/>
-    <input type="hidden" name="source_page" id="source_page" value=""/>
 
-    <!-- 1 -->
+    <input type="hidden" name="lang" id="lang" value="en"/>
+    <input type="hidden" name="device_time" id="device_time"/>
+    <input type="hidden" name="source_page" id="source_page"/>
+
+    <!-- Q1 -->
     <div class="qtitle" data-i18n="q1_title">How did you like the Tbilisi City Quest? (1–10)</div>
     <div class="qsub" data-i18n="q1_sub">10 means “loved it”.</div>
-    <select id="overall_10" name="overall_10" required>
-      <option value="" data-i18n="select">Select</option>
-      <option value="10">10</option><option value="9">9</option><option value="8">8</option><option value="7">7</option><option value="6">6</option>
-      <option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option>
+    <select name="overall_10" required>
+      <option value="">Select</option>
+      <option>10</option><option>9</option><option>8</option><option>7</option><option>6</option>
+      <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
     </select>
 
     <div class="hr"></div>
 
-    <!-- 2 -->
-    <div class="qtitle" data-i18n="q2_title">What did you like the most?</div>
-    <div class="qsub" data-i18n="q2_sub">Choose all that apply.</div>
-    <div class="options">
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Tasks & questions"><span data-i18n="lm1">Tasks & questions</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Culture & history"><span data-i18n="lm2">Culture & history</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Route & city"><span data-i18n="lm3">Route & city</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Bonus questions"><span data-i18n="lm4">Bonus questions</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Improv game at the hotel"><span data-i18n="lm5">Improv game at the hotel</span></label>
-      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Khinkali at Zodiaco"><span data-i18n="lm6">Khinkali at Zodiaco</span></label>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- 3 -->
-    <div class="qtitle" data-i18n="q3_title">What did you miss?</div>
-    <div class="qsub" data-i18n="q3_sub">Which task types should we add next time? (choose any)</div>
-    <div class="options">
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Logic puzzles"><span data-i18n="at1">Logic puzzles</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Music contests"><span data-i18n="at2">Music contests</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Painting / draw something"><span data-i18n="at3">Painting / draw something</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Emotional / scary tasks"><span data-i18n="at4">Emotional / scary tasks</span></label>
-      <label class="opt"><input type="checkbox" name="add_types_opt" value="Sport / obstacle challenges"><span data-i18n="at5">Sport / obstacle challenges</span></label>
-    </div>
-
-    <div class="hr"></div>
-
-    <!-- 4 (multi-select as checkboxes) -->
+    <!-- Q4 Hard tasks -->
     <div class="qtitle" data-i18n="q4_title">Were any tasks too hard or unclear?</div>
     <div class="qsub" data-i18n="q4_sub">Choose all that apply.</div>
-    <div class="options">
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="None"><span data-i18n="none">None</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 1"><span data-i18n="ht1">Task 1</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 2"><span data-i18n="ht2">Task 2</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 3"><span data-i18n="ht3">Task 3</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 4"><span data-i18n="ht4">Task 4</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 5"><span data-i18n="ht5">Task 5</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 6"><span data-i18n="ht6">Task 6</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 7"><span data-i18n="ht7">Task 7</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 8"><span data-i18n="ht8">Task 8</span></label>
-      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 9"><span data-i18n="ht9">Task 9</span></label>
-    </div>
-    <div class="qsub" data-i18n="hard_note">(You can rename “Task 1…9” to real task names later.)</div>
 
-    <div class="hr"></div>
+    <div class="options" id="hardTasksBlock">
+      <label class="opt">
+        <input type="checkbox" name="hard_tasks_opt" value="None" data-none>
+        <span data-i18n="none">None</span>
+      </label>
 
-    <!-- 5 -->
-    <div class="qtitle" data-i18n="q5_title">Now rate each task</div>
-    <div class="qsub" data-i18n="q5_sub">1 = did not like / 5 = loved it</div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 1">
+        <span><b>Biltmore Hotel</b> — <span data-i18n="t1d">The philosopher’s last name</span></span>
+      </label>
 
-    <div class="grid2">
-      <div>
-        <label for="task1_rating" data-i18n="t1">Task 1</label>
-        <select id="task1_rating" name="task1_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 2">
+        <span><b>MoMA</b> — <span data-i18n="t2d">Apple</span></span>
+      </label>
 
-      <div>
-        <label for="task2_rating" data-i18n="t2">Task 2</label>
-        <select id="task2_rating" name="task2_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 3">
+        <span><b>National Gallery</b> — <span data-i18n="t3d">Artist with a brush and palette</span></span>
+      </label>
 
-      <div>
-        <label for="task3_rating" data-i18n="t3">Task 3</label>
-        <select id="task3_rating" name="task3_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 4">
+        <span><b>Alexander Park</b> — <span data-i18n="t4d">Artist’s monument and a dog</span></span>
+      </label>
 
-      <div>
-        <label for="task4_rating" data-i18n="t4">Task 4</label>
-        <select id="task4_rating" name="task4_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 5">
+        <span><b>Orbeliani Garden</b> — <span data-i18n="t5d">Six musicians, one with a bow tie</span></span>
+      </label>
 
-      <div>
-        <label for="task5_rating" data-i18n="t5">Task 5</label>
-        <select id="task5_rating" name="task5_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 6">
+        <span><b>Laghidze</b> — <span data-i18n="t6d">Composer</span></span>
+      </label>
 
-      <div>
-        <label for="task6_rating" data-i18n="t6">Task 6</label>
-        <select id="task6_rating" name="task6_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 7">
+        <span><b>Ambassadori Hotel</b> — <span data-i18n="t7d">Pirosmani picture hero</span></span>
+      </label>
 
-      <div>
-        <label for="task7_rating" data-i18n="t7">Task 7</label>
-        <select id="task7_rating" name="task7_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 8">
+        <span><b>Ietim Gurji</b> — <span data-i18n="t8d">Singer and bird</span></span>
+      </label>
 
-      <div>
-        <label for="task8_rating" data-i18n="t8">Task 8</label>
-        <select id="task8_rating" name="task8_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="task9_rating" data-i18n="t9">Task 9</label>
-        <select id="task9_rating" name="task9_rating">
-          <option value="" data-i18n="select">Select</option>
-          <option value="5">😍 5 — Loved it</option>
-          <option value="4">😊 4 — Liked it</option>
-          <option value="3">😐 3 — Okay</option>
-          <option value="2">😕 2 — Not great</option>
-          <option value="1">😞 1 — Did not like</option>
-        </select>
-      </div>
+      <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 9">
+        <span><b>Canyon</b> — <span data-i18n="t9d">“DNA of Love”</span></span>
+      </label>
     </div>
 
     <div class="hr"></div>
 
-    <!-- 6 -->
-    <div class="qtitle" data-i18n="q6_title">Did you feel tired or lose focus at any point?</div>
-    <select id="fatigue" name="fatigue">
-      <option value="" data-i18n="select">Select</option>
-      <option value="No — it stayed dynamic" data-i18n="fa1">No — it stayed dynamic</option>
-      <option value="Yes — around the middle" data-i18n="fa2">Yes — around the middle</option>
-      <option value="Yes — closer to the end" data-i18n="fa3">Yes — closer to the end</option>
-    </select>
-
-    <div class="hr"></div>
-
-    <!-- 7 -->
-    <div class="qtitle" data-i18n="q7_title">Your favorite moment of the quest</div>
-    <textarea id="favorite_moment" name="favorite_moment" data-i18n-ph="ph_fav"
-      placeholder="A specific scene, a funny moment, a place, a task, anything."></textarea>
-
-    <div class="hr"></div>
-
-    <!-- 8 -->
-    <div class="qtitle" data-i18n="q8_title">What should we improve or add next time?</div>
-    <textarea id="improve" name="improve" data-i18n-ph="ph_improve"
-      placeholder="Be brutally honest — this is the most valuable field 🙂"></textarea>
-
-    <div class="hr"></div>
-
-    <!-- 9 -->
-    <div class="qtitle" data-i18n="q9_title">Public review (anonymous)</div>
-    <div class="muted" data-i18n="pub_note">
-      Questions 1–8 are for internal improvement. Question 9 is separate: an anonymous review we may publish.
-    </div>
-    <label for="public_review" data-i18n="q_public">Write a short honest review for publication</label>
-    <textarea id="public_review" name="public_review" data-i18n-ph="ph_public"
-      placeholder="Write a general review so other people can understand the impression of the quest."></textarea>
-
-    <div class="hr"></div>
-
-    <button class="btn" id="submitBtn" type="submit" data-i18n="send">Send feedback</button>
+    <button class="btn" type="submit">Send feedback</button>
     <div id="msg"></div>
+
   </form>
 </div>
 
@@ -289,243 +136,37 @@
   import { API_URL } from './config.js';
 
   const form = document.getElementById('feedbackForm');
-  const msg = document.getElementById('msg');
-  const btn = document.getElementById('submitBtn');
-  const langInput = document.getElementById('lang');
-
   document.getElementById('device_time').value = new Date().toISOString();
   document.getElementById('source_page').value = location.href;
 
-  function collectChecked(name) {
-    return Array.from(form.querySelectorAll(`input[name="${name}"]:checked`))
-      .map(n => n.value)
-      .join("; ");
-  }
+  /* === HARD TASKS PROTECTION === */
+  const block = document.getElementById('hardTasksBlock');
+  const noneBox = block.querySelector('[data-none]');
+  const taskBoxes = block.querySelectorAll('input[name="hard_tasks_opt"]:not([data-none])');
 
-  const dict = {
-    en: {
-      title: "Tbilisi City Quest — Feedback",
-      intro: "Thank you for joining the quest! This feedback helps me improve the next quests.",
-      timehint: "This form takes ~5 minutes. Please answer honestly — it really helps 🙌",
-      select: "Select",
-      none: "None",
-
-      q1_title: "How did you like the Tbilisi City Quest? (1–10)",
-      q1_sub: "10 means “loved it”.",
-
-      q2_title: "What did you like the most?",
-      q2_sub: "Choose all that apply.",
-      lm1: "Tasks & questions",
-      lm2: "Culture & history",
-      lm3: "Route & city",
-      lm4: "Bonus questions",
-      lm5: "Improv game at the hotel",
-      lm6: "Khinkali at Zodiaco",
-
-      q3_title: "What did you miss?",
-      q3_sub: "Which task types should we add next time? (choose any)",
-      at1: "Logic puzzles",
-      at2: "Music contests",
-      at3: "Painting / draw something",
-      at4: "Emotional / scary tasks",
-      at5: "Sport / obstacle challenges",
-
-      q4_title: "Were any tasks too hard or unclear?",
-      q4_sub: "Choose all that apply.",
-      ht1: "Task 1",
-      ht2: "Task 2",
-      ht3: "Task 3",
-      ht4: "Task 4",
-      ht5: "Task 5",
-      ht6: "Task 6",
-      ht7: "Task 7",
-      ht8: "Task 8",
-      ht9: "Task 9",
-      hard_note: "(You can rename “Task 1…9” to real task names later.)",
-
-      q5_title: "Now rate each task",
-      q5_sub: "1 = did not like / 5 = loved it",
-      t1: "Task 1",
-      t2: "Task 2",
-      t3: "Task 3",
-      t4: "Task 4",
-      t5: "Task 5",
-      t6: "Task 6",
-      t7: "Task 7",
-      t8: "Task 8",
-      t9: "Task 9",
-
-      q6_title: "Did you feel tired or lose focus at any point?",
-      fa1: "No — it stayed dynamic",
-      fa2: "Yes — around the middle",
-      fa3: "Yes — closer to the end",
-
-      q7_title: "Your favorite moment of the quest",
-      ph_fav: "A specific scene, a funny moment, a place, a task, anything.",
-
-      q8_title: "What should we improve or add next time?",
-      ph_improve: "Be brutally honest — this is the most valuable field 🙂",
-
-      q9_title: "Public review (anonymous)",
-      pub_note: "Questions 1–8 are for internal improvement. Question 9 is separate: an anonymous review we may publish.",
-      q_public: "Write a short honest review for publication",
-      ph_public: "Write a general review so other people can understand the impression of the quest.",
-
-      send: "Send feedback"
-    },
-
-    ru: {
-      title: "Tbilisi City Quest — Обратная связь",
-      intro: "Спасибо, что участвовали в квесте! Эта обратная связь поможет улучшить следующие квесты.",
-      timehint: "Заполнение займет ~5 минут. Пожалуйста, отвечайте честно — это очень помогает 🙌",
-      select: "Выберите",
-      none: "Нет",
-
-      q1_title: "Как вам в целом понравился Tbilisi City Quest? (1–10)",
-      q1_sub: "10 — это максимум, значит вам очень понравилось.",
-
-      q2_title: "Что понравилось больше всего?",
-      q2_sub: "Можно выбрать несколько вариантов.",
-      lm1: "Задания и вопросы",
-      lm2: "Культура и история",
-      lm3: "Маршрут и город",
-      lm4: "Дополнительные вопросы",
-      lm5: "Импровизационная игра в отеле",
-      lm6: "Хинкали в Zodiaco",
-
-      q3_title: "Каких заданий вам не хватило?",
-      q3_sub: "Какие типы заданий добавить в следующий раз? (можно выбрать несколько)",
-      at1: "Логические задачи",
-      at2: "Музыкальные конкурсы",
-      at3: "Задания с живописью — что-то изобразить",
-      at4: "Эмоционально-пугающие задания",
-      at5: "Спортивные задания / преодоление препятствий",
-
-      q4_title: "Были ли задания, которые показались сложными или неочевидными?",
-      q4_sub: "Можно выбрать несколько вариантов.",
-      ht1: "Задание 1",
-      ht2: "Задание 2",
-      ht3: "Задание 3",
-      ht4: "Задание 4",
-      ht5: "Задание 5",
-      ht6: "Задание 6",
-      ht7: "Задание 7",
-      ht8: "Задание 8",
-      ht9: "Задание 9",
-      hard_note: "(“Задание 1…9” можно потом переименовать в реальные названия.)",
-
-      q5_title: "Оцените каждое из 9 заданий",
-      q5_sub: "1 — не понравилось / 5 — очень понравилось",
-      t1: "Задание 1",
-      t2: "Задание 2",
-      t3: "Задание 3",
-      t4: "Задание 4",
-      t5: "Задание 5",
-      t6: "Задание 6",
-      t7: "Задание 7",
-      t8: "Задание 8",
-      t9: "Задание 9",
-
-      q6_title: "Был ли момент, когда вы устали или потеряли фокус?",
-      fa1: "Нет — всё прошло динамично",
-      fa2: "Да — ближе к середине",
-      fa3: "Да — ближе к концу",
-
-      q7_title: "Ваш любимый момент квеста",
-      ph_fav: "Конкретная сцена, смешной момент, место, задание — что угодно.",
-
-      q8_title: "Что бы вы улучшили или добавили в следующий раз?",
-      ph_improve: "Будьте честными — это самое ценное поле 🙂",
-
-      q9_title: "Отзыв для публикации (анонимный)",
-      pub_note: "Вопросы 1–8 мы собираем для внутреннего анализа и улучшения следующих квестов. Вопрос 9 — отдельный: это анонимный отзыв, который мы можем опубликовать на наших ресурсах.",
-      q_public: "Напишите честный общий отзыв для публикации",
-      ph_public: "Так, чтобы другие люди, прочитав его, могли понять впечатление о квесте.",
-
-      send: "Отправить"
-    }
-  };
-
-  function applyLang(lang) {
-    langInput.value = lang;
-
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[lang][key]) el.textContent = dict[lang][key];
-    });
-
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-      const key = el.getAttribute('data-i18n-ph');
-      if (dict[lang][key]) el.setAttribute('placeholder', dict[lang][key]);
-    });
-
-    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
-    document.getElementById('btnRU').classList.toggle('active', lang === 'ru');
-  }
-
-  document.getElementById('btnEN').addEventListener('click', () => applyLang('en'));
-  document.getElementById('btnRU').addEventListener('click', () => applyLang('ru'));
-  applyLang('en');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    msg.textContent = '';
-    msg.className = '';
-    btn.disabled = true;
-
-    document.getElementById('device_time').value = new Date().toISOString();
-    document.getElementById('source_page').value = location.href;
-
-    const data = new URLSearchParams();
-    data.set('lang', langInput.value);
-    data.set('device_time', document.getElementById('device_time').value);
-    data.set('source_page', document.getElementById('source_page').value);
-
-    data.set('overall_10', form.overall_10.value);
-    data.set('liked_most', collectChecked('liked_most_opt'));
-    data.set('add_types', collectChecked('add_types_opt'));
-    data.set('hard_tasks', collectChecked('hard_tasks_opt'));
-
-    data.set('task1_rating', form.task1_rating.value);
-    data.set('task2_rating', form.task2_rating.value);
-    data.set('task3_rating', form.task3_rating.value);
-    data.set('task4_rating', form.task4_rating.value);
-    data.set('task5_rating', form.task5_rating.value);
-    data.set('task6_rating', form.task6_rating.value);
-    data.set('task7_rating', form.task7_rating.value);
-    data.set('task8_rating', form.task8_rating.value);
-    data.set('task9_rating', form.task9_rating.value);
-
-    data.set('fatigue', form.fatigue.value);
-    data.set('favorite_moment', form.favorite_moment.value.trim());
-    data.set('improve', form.improve.value.trim());
-    data.set('public_review', form.public_review.value.trim());
-
-    try {
-      await fetch(API_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: data.toString()
-      });
-
-      msg.textContent = (langInput.value === 'ru')
-        ? 'Спасибо! 🙌 Отзыв отправлен.'
-        : 'Thank you! 🙌 Your feedback was sent.';
-      msg.className = 'ok';
-
-      form.reset();
-      applyLang(langInput.value);
-    } catch (err) {
-      msg.textContent = (langInput.value === 'ru')
-        ? 'Ошибка: не удалось отправить. Попробуйте ещё раз.'
-        : 'Error: could not send. Please try again.';
-      msg.className = 'err';
-      console.error(err);
-    } finally {
-      btn.disabled = false;
+  noneBox.addEventListener('change', () => {
+    if (noneBox.checked) {
+      taskBoxes.forEach(b => { b.checked = false; b.disabled = true; });
+    } else {
+      taskBoxes.forEach(b => b.disabled = false);
     }
   });
+
+  taskBoxes.forEach(b => {
+    b.addEventListener('change', () => {
+      if (b.checked) noneBox.checked = false;
+      noneBox.disabled = Array.from(taskBoxes).some(t => t.checked);
+    });
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = new URLSearchParams(new FormData(form));
+    await fetch(API_URL, { method:'POST', mode:'no-cors', body:data });
+    document.getElementById('msg').textContent = 'Thank you! 🙌';
+    form.reset();
+  });
 </script>
+
 </body>
 </html>
