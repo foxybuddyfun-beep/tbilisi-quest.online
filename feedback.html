@@ -6,39 +6,138 @@
   <title>Tbilisi City Quest — Feedback</title>
 
   <style>
-    body{font-family:system-ui,Arial;margin:0;background:#f6f7fb;color:#111827}
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin:0;
+      background:#f6f7fb;
+      color:#111827;
+    }
     .wrap{max-width:980px;margin:0 auto;padding:20px}
-    .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 6px 24px rgba(0,0,0,.06);margin-bottom:14px}
-    h1{margin:0 0 6px;font-size:22px}
-    .muted{color:#667085;font-size:14px;line-height:1.45}
-    .qtitle{margin:0 0 6px;font-size:18px;font-weight:800}
-    .qsub{margin:0 0 10px;font-size:13px;color:#667085}
-    label{display:block;margin:10px 0 6px;font-weight:700}
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 6px 24px rgba(0,0,0,.06);
+      margin-bottom:14px
+    }
+
+    h1{
+      margin:0 0 6px;
+      font-size:22px;
+      font-weight:600;
+    }
+
+    .muted{
+      color:#667085;
+      font-size:14px;
+      line-height:1.45;
+      font-weight:400;
+    }
+
+    .qtitle{
+      margin:0 0 4px;
+      font-size:17px;
+      font-weight:600;
+    }
+
+    .qsub{
+      margin:0 0 10px;
+      font-size:13px;
+      color:#667085;
+      font-weight:400;
+    }
+
+    label{
+      display:block;
+      margin:10px 0 6px;
+      font-weight:500;
+    }
+
     input[type="text"], textarea, select{
-      width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:12px;
-      padding:10px 12px;font-size:15px;background:#fff
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid #d0d5dd;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:15px;
+      background:#fff;
     }
+
     textarea{min-height:90px;resize:vertical}
-    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-    .opt{display:flex;gap:10px;align-items:flex-start}
+
+    .options{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .opt{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      font-size:14px;
+      line-height:1.4;
+    }
+
     .opt input{margin-top:3px}
-    .hr{height:1px;background:#eef2f6;margin:16px 0}
+
+    .hr{
+      height:1px;
+      background:#eef2f6;
+      margin:18px 0;
+    }
+
     .btn{
-      display:inline-block;background:#111827;color:#fff;border:0;border-radius:12px;
-      padding:10px 14px;font-size:15px;cursor:pointer
+      display:inline-block;
+      background:#111827;
+      color:#fff;
+      border:0;
+      border-radius:12px;
+      padding:11px 16px;
+      font-size:15px;
+      cursor:pointer;
     }
+
     .btn:disabled{opacity:.6;cursor:not-allowed}
-    .ok{color:#16a34a;font-weight:800;margin-top:10px}
-    .err{color:#dc2626;font-weight:800;margin-top:10px}
-    .langbar{display:flex;gap:10px;align-items:center;justify-content:space-between}
-    .langbtns{display:flex;gap:8px}
-    .chip{
-      border:1px solid #d0d5dd;background:#fff;border-radius:999px;
-      padding:8px 12px;font-size:14px;cursor:pointer
+
+    .ok{color:#16a34a;font-weight:600;margin-top:10px}
+    .err{color:#dc2626;font-weight:600;margin-top:10px}
+
+    .langbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
     }
-    .chip.active{background:#111827;color:#fff;border-color:#111827}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:760px){ .grid2{grid-template-columns:1fr} }
+
+    .langbtns{display:flex;gap:8px}
+
+    .chip{
+      border:1px solid #d0d5dd;
+      background:#fff;
+      border-radius:999px;
+      padding:6px 12px;
+      font-size:13px;
+      cursor:pointer;
+      font-weight:400;
+    }
+
+    .chip.active{
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    @media (max-width:760px){
+      .grid2{grid-template-columns:1fr}
+    }
   </style>
 </head>
 
@@ -50,7 +149,7 @@
       <div>
         <h1 data-i18n="title">Tbilisi City Quest — Feedback</h1>
         <div class="muted" data-i18n="intro">
-          Thank you for joining the quest! This feedback helps me improve the next quests.
+          Thank you for joining the quest. Your feedback helps improve future quests.
         </div>
       </div>
       <div class="langbtns">
@@ -66,9 +165,13 @@
     <input type="hidden" name="device_time" id="device_time"/>
     <input type="hidden" name="source_page" id="source_page"/>
 
-    <!-- Q1 -->
-    <div class="qtitle" data-i18n="q1_title">How did you like the Tbilisi City Quest? (1–10)</div>
-    <div class="qsub" data-i18n="q1_sub">10 means “loved it”.</div>
+    <!-- 1 -->
+    <div class="qtitle" data-i18n="q1_title">
+      How did you like the Tbilisi City Quest? (1–10)
+    </div>
+    <div class="qsub" data-i18n="q1_sub">
+      10 means you liked it very much.
+    </div>
     <select name="overall_10" required>
       <option value="">Select</option>
       <option>10</option><option>9</option><option>8</option><option>7</option><option>6</option>
@@ -77,9 +180,36 @@
 
     <div class="hr"></div>
 
-    <!-- Q4 Hard tasks -->
-    <div class="qtitle" data-i18n="q4_title">Were any tasks too hard or unclear?</div>
-    <div class="qsub" data-i18n="q4_sub">Choose all that apply.</div>
+    <!-- 2 -->
+    <div class="qtitle" data-i18n="q2_title">What did you like the most?</div>
+    <div class="qsub" data-i18n="q2_sub">You can choose several options.</div>
+    <div class="options">
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Tasks & questions"><span data-i18n="lm1">Tasks and questions</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Culture & history"><span data-i18n="lm2">Culture and history</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Route & city"><span data-i18n="lm3">Route and city</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Bonus questions"><span data-i18n="lm4">Bonus questions</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Improv game at the hotel"><span data-i18n="lm5">Improv game at the hotel</span></label>
+      <label class="opt"><input type="checkbox" name="liked_most_opt" value="Khinkali at Zodiaco"><span data-i18n="lm6">Khinkali at Zodiaco</span></label>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- 3 -->
+    <div class="qtitle" data-i18n="q3_title">What was missing?</div>
+    <div class="qsub" data-i18n="q3_sub">What task types would you like to add?</div>
+    <div class="options">
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Logic puzzles"><span data-i18n="at1">Logic puzzles</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Music contests"><span data-i18n="at2">Music contests</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Painting tasks"><span data-i18n="at3">Painting or drawing tasks</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Emotional tasks"><span data-i18n="at4">Emotional or scary tasks</span></label>
+      <label class="opt"><input type="checkbox" name="add_types_opt" value="Sport challenges"><span data-i18n="at5">Sport or obstacle challenges</span></label>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- 4 Hard tasks -->
+    <div class="qtitle" data-i18n="q4_title">Were any tasks difficult or unclear?</div>
+    <div class="qsub" data-i18n="q4_sub">You can choose several.</div>
 
     <div class="options" id="hardTasksBlock">
       <label class="opt">
@@ -88,47 +218,78 @@
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 1">
-        <span><b>Biltmore Hotel</b> — <span data-i18n="t1d">The philosopher’s last name</span></span>
+        <span>Biltmore Hotel — <span data-i18n="t1d">The philosopher’s last name</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 2">
-        <span><b>MoMA</b> — <span data-i18n="t2d">Apple</span></span>
+        <span>MoMA — <span data-i18n="t2d">Apple</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 3">
-        <span><b>National Gallery</b> — <span data-i18n="t3d">Artist with a brush and palette</span></span>
+        <span>National Gallery — <span data-i18n="t3d">Artist with a brush and palette</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 4">
-        <span><b>Alexander Park</b> — <span data-i18n="t4d">Artist’s monument and a dog</span></span>
+        <span>Alexander Park — <span data-i18n="t4d">Artist’s monument and a dog</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 5">
-        <span><b>Orbeliani Garden</b> — <span data-i18n="t5d">Six musicians, one with a bow tie</span></span>
+        <span>Orbeliani Garden — <span data-i18n="t5d">Six musicians, one with a bow tie</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 6">
-        <span><b>Laghidze</b> — <span data-i18n="t6d">Composer</span></span>
+        <span>Laghidze — <span data-i18n="t6d">Composer</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 7">
-        <span><b>Ambassadori Hotel</b> — <span data-i18n="t7d">Pirosmani picture hero</span></span>
+        <span>Ambassadori Hotel — <span data-i18n="t7d">Pirosmani picture hero</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 8">
-        <span><b>Ietim Gurji</b> — <span data-i18n="t8d">Singer and bird</span></span>
+        <span>Ietim Gurji — <span data-i18n="t8d">Singer and bird</span></span>
       </label>
 
       <label class="opt"><input type="checkbox" name="hard_tasks_opt" value="Task 9">
-        <span><b>Canyon</b> — <span data-i18n="t9d">“DNA of Love”</span></span>
+        <span>Canyon — <span data-i18n="t9d">“DNA of Love”</span></span>
       </label>
     </div>
 
     <div class="hr"></div>
 
-    <button class="btn" type="submit">Send feedback</button>
-    <div id="msg"></div>
+    <!-- 6 -->
+    <div class="qtitle" data-i18n="q6_title">Did you feel tired or lose focus?</div>
+    <select name="fatigue">
+      <option value="">Select</option>
+      <option value="No — it stayed dynamic" data-i18n="fa1">No — it stayed dynamic</option>
+      <option value="Yes — around the middle" data-i18n="fa2">Yes — around the middle</option>
+      <option value="Yes — closer to the end" data-i18n="fa3">Yes — closer to the end</option>
+    </select>
 
+    <div class="hr"></div>
+
+    <!-- 7 -->
+    <div class="qtitle" data-i18n="q7_title">Your favorite moment</div>
+    <textarea name="favorite_moment" data-i18n-ph="ph_fav"></textarea>
+
+    <div class="hr"></div>
+
+    <!-- 8 -->
+    <div class="qtitle" data-i18n="q8_title">What should we improve or add next time?</div>
+    <textarea name="improve" data-i18n-ph="ph_improve"></textarea>
+
+    <div class="hr"></div>
+
+    <!-- 9 -->
+    <div class="qtitle" data-i18n="q9_title">Public review (anonymous)</div>
+    <div class="muted" data-i18n="pub_note">
+      Questions 1–8 are for internal improvement. Question 9 may be published.
+    </div>
+    <textarea name="public_review" data-i18n-ph="ph_public"></textarea>
+
+    <div class="hr"></div>
+
+    <button class="btn" type="submit" data-i18n="send">Send feedback</button>
+    <div id="msg"></div>
   </form>
 </div>
 
@@ -139,7 +300,7 @@
   document.getElementById('device_time').value = new Date().toISOString();
   document.getElementById('source_page').value = location.href;
 
-  /* === HARD TASKS PROTECTION === */
+  /* protection for hard tasks */
   const block = document.getElementById('hardTasksBlock');
   const noneBox = block.querySelector('[data-none]');
   const taskBoxes = block.querySelectorAll('input[name="hard_tasks_opt"]:not([data-none])');
