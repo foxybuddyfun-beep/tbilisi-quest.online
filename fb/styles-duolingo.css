@@ -217,10 +217,62 @@
     color: var(--duo-orange-500);
 }
 
-.duo-nav-actions {
+/* Navigation Menu */
+.duo-nav-menu {
     display: flex;
     align-items: center;
-    gap: var(--duo-spacing-4);
+    gap: var(--duo-spacing-6);
+}
+
+.duo-nav-link {
+    font-family: var(--duo-font-primary);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--duo-neutral-700);
+    text-decoration: none;
+    transition: color 150ms ease;
+}
+
+.duo-nav-link:hover {
+    color: var(--duo-orange-500);
+}
+
+.duo-btn-contact {
+    margin-left: var(--duo-spacing-4);
+}
+
+/* Burger Button */
+.duo-burger {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--duo-spacing-2);
+    z-index: 101;
+}
+
+.duo-burger span {
+    width: 24px;
+    height: 3px;
+    background-color: var(--duo-neutral-900);
+    border-radius: 2px;
+    transition: all 250ms ease;
+}
+
+.duo-burger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.duo-burger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.duo-burger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Buttons */
@@ -717,9 +769,42 @@
         padding: 0 var(--duo-spacing-4);
     }
     
-    .duo-nav-actions {
+    /* Mobile Menu */
+    .duo-burger {
+        display: flex;
+    }
+    
+    .duo-nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background-color: var(--duo-white);
         flex-direction: column;
-        gap: var(--duo-spacing-2);
+        align-items: flex-start;
+        gap: 0;
+        padding: var(--duo-spacing-20) var(--duo-spacing-6);
+        box-shadow: var(--duo-shadow-xl);
+        transition: right 250ms ease;
+        overflow-y: auto;
+    }
+    
+    .duo-nav-menu.active {
+        right: 0;
+    }
+    
+    .duo-nav-link {
+        width: 100%;
+        padding: var(--duo-spacing-4) 0;
+        border-bottom: var(--duo-border-hairline);
+        font-size: 16px;
+    }
+    
+    .duo-btn-contact {
+        width: 100%;
+        margin-left: 0;
+        margin-top: var(--duo-spacing-6);
     }
     
     .duo-tier-grid {

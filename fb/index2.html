@@ -19,9 +19,20 @@
                     <img src="images/logo/logo.png" alt="Foxy Buddy" class="duo-logo-img" onerror="this.style.display='none'">
                     <span class="duo-logo-text">Foxy Buddy</span>
                 </div>
-                <div class="duo-nav-actions">
-                    <a href="#support" class="duo-btn duo-btn-ghost">Поддержать проект</a>
-                    <a href="https://www.linkedin.com/in/davidmamp/" target="_blank" class="duo-btn duo-btn-primary-blue">Написать в LinkedIn</a>
+                
+                <!-- Burger Button -->
+                <button class="duo-burger" id="burgerBtn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <!-- Navigation Menu -->
+                <div class="duo-nav-menu" id="navMenu">
+                    <a href="#about" class="duo-nav-link">О проекте</a>
+                    <a href="#support" class="duo-nav-link">Поддержать</a>
+                    <a href="#investors" class="duo-nav-link">Для инвестора</a>
+                    <a href="https://www.linkedin.com/in/davidmamp/" target="_blank" class="duo-btn duo-btn-primary-blue duo-btn-contact">Написать в LinkedIn</a>
                 </div>
             </nav>
         </div>
@@ -52,7 +63,7 @@
     </section>
 
     <!-- ИСТОРИЯ -->
-    <section class="duo-section">
+    <section class="duo-section" id="about">
         <div class="duo-container">
             <div class="duo-story-block">
                 <h2 class="duo-h2">Моя история</h2>
@@ -213,7 +224,7 @@
                         <div class="duo-tier-price">$500</div>
                         <p class="duo-body-muted">В качестве благодарности вы получите:</p>
                         <ul class="duo-tier-benefits">
-                            <li>1 пожизненный доступ</li>
+                            <li>1 пожизненный доступ с максимальными возможностями</li>
                             <li>Мерч Foxy Buddy в подарок</li>
                         </ul>
                         <a href="https://www.linkedin.com/in/davidmamp/" class="duo-btn duo-btn-primary-blue duo-btn-block">Выбрать $500</a>
@@ -223,7 +234,7 @@
                         <div class="duo-tier-price">$1,000</div>
                         <p class="duo-body-muted">В качестве благодарности вы получите:</p>
                         <ul class="duo-tier-benefits">
-                            <li>2 пожизненных доступа</li>
+                            <li>2 пожизненных доступа с максимальными возможностями</li>
                             <li>Расширенный мерч в подарок для 2 человек</li>
                         </ul>
                         <a href="https://www.linkedin.com/in/davidmamp/" class="duo-btn duo-btn-primary-blue duo-btn-block">Выбрать $1,000</a>
@@ -233,7 +244,7 @@
                         <div class="duo-tier-price">$2,500</div>
                         <p class="duo-body-muted">В качестве благодарности вы получите:</p>
                         <ul class="duo-tier-benefits">
-                            <li>5 пожизненных доступов</li>
+                            <li>5 пожизненных доступов с максимальными возможностями</li>
                             <li>Расширенный мерч в подарок для 5 человек</li>
                         </ul>
                         <a href="https://www.linkedin.com/in/davidmamp/" class="duo-btn duo-btn-primary-blue duo-btn-block">Выбрать $2,500</a>
@@ -263,7 +274,7 @@
     </section>
 
     <!-- ДЛЯ ИНВЕСТОРОВ -->
-    <section class="duo-section">
+    <section class="duo-section" id="investors">
         <div class="duo-container">
             <h2 class="duo-h2">Для инвесторов</h2>
             <div class="duo-content-block duo-content-centered">
@@ -300,5 +311,24 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Mobile Menu Toggle
+        const burgerBtn = document.getElementById('burgerBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        burgerBtn.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            burgerBtn.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.duo-nav-link, .duo-btn-contact');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                burgerBtn.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
